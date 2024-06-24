@@ -4,6 +4,8 @@ return [
     'required' => 'Kolom :attribute harus diisi.',
     'attributes' => [
         'name' => 'nama',
+        'phone' => 'nomor handphone',
+        'photo' => 'foto',
     ],
     'regex' => 'Kolom :attribute harus memenuhi format yang benar.',
     'email' => 'Kolom :attribute harus berupa alamat email yang valid.',
@@ -18,5 +20,5 @@ return [
     'unique' => 'Data :attribute sudah terdaftar dalam sistem.',
     'image' => 'Kolom :attribute harus berupa file gambar.',
     'numeric' => 'Kolom :attribute hanya boleh berisi angka.',
-    'uploaded' => 'Ukuran file yang diunggah pada kolom :attribute terlalu besar. Harap unggah file dengan ukuran maksimum 2MB.',
+    'uploaded' => 'Ukuran file yang diunggah pada kolom :attribute terlalu besar. Maksimum 2MB.',
 ];

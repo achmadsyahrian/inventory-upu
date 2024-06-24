@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
           return app(\App\Http\Controllers\ViceRector\DashboardController::class)->index();
         }
     });
+
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/update', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     
     Route::prefix('administrator')->middleware(['role:1'])->group(function () {
         
