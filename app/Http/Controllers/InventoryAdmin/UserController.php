@@ -14,14 +14,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = User::with('role', 'division')
-                        ->whereNotIn('role_id', [1])
-                        ->whereNotIn('id', [auth()->id()])
-                        ->orderBy('name')
-                        ->get();
-        return view('inventory_admin.users.index', compact('data'));
+        $data = $this->searchUsers($request);
+
+        $divisions = Division::select('id', 'name')->get();
+        $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
+        
+        return view('inventory_admin.users.index', compact('data', 'roles', 'divisions'));
     }
 
     /**
@@ -141,4 +141,39 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Data pengguna berhasil dihapus');
     }
+
+    private function searchUsers(Request $request)
+    {
+        $query = User::with('role', 'division')
+                    ->whereNotIn('role_id', [1])
+                    ->whereNotIn('id', [auth()->id()]);
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('username')) {
+            $query->where('username', 'like', '%' . $request->username . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('phone')) {
+            $query->where('phone', 'like', '%' . $request->phone . '%');
+        }
+
+        if ($request->filled('division_id')) {
+            $query->where('division_id', $request->division_id);
+        }
+
+        if ($request->filled('role_id')) {
+            $query->where('role_id', $request->role_id);
+        }
+
+        return $query->orderBy('name')->paginate(10)->appends($request->all());
+    }
+
+    
 }

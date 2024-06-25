@@ -42,9 +42,7 @@
           @include('partials.navbar')
           @include('partials.sidebar')
           <div class="main-content">
-              <section class="section">
-                @yield('content')
-              </section>
+              @yield('content')
               @include('partials.footer')
           </div>
       </div>
