@@ -63,7 +63,7 @@
     </li>
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
       @if (Auth::user()->photo)
-        <img alt="image" src="{{ asset('storage/photos/user/' . Auth::user()->photo) }}" class="rounded-circle mr-1">
+        <img alt="image" src="{{ asset('storage/photos/user/' . Auth::user()->photo) }}" style="width:30px; height:30px; object-fit:cover;" class="rounded-circle mr-1">
       @else
         <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
       @endif

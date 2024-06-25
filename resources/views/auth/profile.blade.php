@@ -37,6 +37,7 @@
                          </figure>
                      </div>
                      <div class="col-sm-12 col-md-4">
+                        <label>Foto</label>
                         <div class="custom-file">
                           <input type="file" name="photo" class="custom-file-input @error('photo') is-invalid @enderror" id="profile-logo">
                           <label class="custom-file-label">Choose File</label>

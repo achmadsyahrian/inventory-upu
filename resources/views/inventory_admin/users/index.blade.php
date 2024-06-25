@@ -24,7 +24,7 @@
       <div class="col-12">
          <div class="card">
             <div class="card-header">
-               <h4>Semua User</h4>
+               <h4>Data User</h4>
             </div>
             <div class="card-body">
                <div class="float-left">
@@ -56,28 +56,28 @@
                         <th>Username</th>
                         <th>Divisi</th>
                         <th>Level</th>
+                        <th>Aksi</th>
                      </tr>
-                     @forelse ($users as $item)
+                     @forelse ($data as $item)
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>
                               <div class="d-flex align-items-center">
-                                  <img alt="image" src="{{ asset('assets/img/avatar/avatar-5.png') }}" class="rounded-circle" width="35" data-toggle="title" title="">
+                                 @if ($item->photo)
+                                    <img alt="image" src="{{ asset('storage/photos/user/' . $item->photo) }}" class="rounded-circle" style="object-fit: cover" width="35" height="35" data-toggle="title" title="">
+                                 @else
+                                    <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle" width="35" data-toggle="title" title="">
+                                 @endif
                                   <div class="ml-3">
                                       <div>{{ $item->name }}</div>
                                       <div>
-                                          <a href="#">View</a>
-                                          <span class="bullet">•</span>
-                                          <a href="#">Edit</a>
-                                          <span class="bullet">•</span>
-                                          <a href="#" class="text-danger">Trash</a>
+                                          <a href="mailto:{{ $item->email }}">{{ $item->email ?? '--' }}</a>
                                       </div>
                                   </div>
                               </div>
                           </td>
                            <td>
-                              <a href="#">Web Developer</a>,
-                              <a href="#">Tutorial</a>
+                              {{ $item->username }}
                            </td>
                            <td>
                               <a href="#">
@@ -85,11 +85,37 @@
                               </a>
                            </td>
                            <td>
-                              <div class="badge badge-primary">{{ $item->role->name }}</div>
+                              @php
+                                 $role = strtolower($item->role->name);
+                                 $badgeClass = '';
+
+                                 switch ($role) {
+                                    case 'admin gudang':
+                                          $badgeClass = 'badge-warning';
+                                          break;
+                                    case 'admin divisi':
+                                          $badgeClass = 'badge-success';
+                                          break;
+                                    case 'wakil rektor 2':
+                                          $badgeClass = 'badge-primary';
+                                          break;
+                                    default:
+                                          $badgeClass = 'badge-secondary';
+                                          break;
+                                 }
+                              @endphp
+
+                              <div class="badge {{ $badgeClass }}">{{ $item->role->name }}</div>
                            </td>
+                           <td>
+                              <a href="{{ route('users.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                              <a class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
                      @empty
-                         
+                         <tr>
+                           <td colspan="100" class="text-center">Data tidak tersedia <i class="far fa-sad-tear"></i></td>
+                         </tr>
                      @endforelse
                   </table>
                </div>
