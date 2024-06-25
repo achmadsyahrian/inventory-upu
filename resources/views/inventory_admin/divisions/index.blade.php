@@ -5,33 +5,33 @@
    <x-sweetalert></x-sweetalert>
 
    <div class="section-header">
-      <h1>Users</h1>
+      <h1>Divisi</h1>
       <div class="section-header-button">
-         <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah</a>
+         <a href="{{ route('divisions.create') }}" class="btn btn-primary">Tambah</a>
       </div>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
-         <div class="breadcrumb-item">Pengguna</div>
+         <div class="breadcrumb-item">Divisi</div>
       </div>
    </div>
    
    <div class="section-body">
-      <h2 class="section-title">Users</h2>
+      <h2 class="section-title">Divisi</h2>
       <p class="section-lead">
-         Anda memiliki kontrol penuh atas semua akun pengguna, termasuk opsi mengedit dan menghapus.
+         Anda dapat mengelola semua informasi divisi dengan mudah, termasuk melakukan perubahan dan penghapusan data.
       </p>
    
       <div class="row mt-4">
          <div class="col-12">
             <div class="card">
                <div class="card-header">
-                  <h4>Data User</h4>
+                  <h4>Data Divisi</h4>
                </div>
                <div class="card-body">
                   <div class="float-right">
                      <div class="input-group">
                         <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
-                        <form action="{{ route('users.index') }}" method="GET" style="display:inline;">
+                        <form action="{{ route('divisions.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>
                         </form>
                      </div>
@@ -43,9 +43,8 @@
                         <tr>
                            <th>No</th>
                            <th>Nama</th>
-                           <th>Username</th>
-                           <th>Divisi</th>
-                           <th>Level</th>
+                           <th>Luas m&sup2;</th>
+                           <th>Kondisi</th>
                            <th>Aksi</th>
                         </tr>
                         @forelse ($data as $item)
@@ -53,56 +52,48 @@
                               <td>{{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}</td>
                               <td>
                                  <div class="d-flex align-items-center">
-                                    @if ($item->photo)
-                                       <img alt="image" src="{{ asset('storage/photos/user/' . $item->photo) }}" class="rounded-circle" style="object-fit: cover" width="35" height="35" data-toggle="title" title="">
-                                    @else
-                                       <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle" width="35" data-toggle="title" title="">
-                                    @endif
-                                     <div class="ml-3">
+                                     <div>
                                          <div>{{ $item->name }}</div>
                                          <div>
-                                             <a href="mailto:{{ $item->email }}">{{ $item->email ?? '--' }}</a>
+                                             {{-- <a href="#">{{ $item->building->name ?? '--' }}</a> --}}
+                                             <span class="text-primary">{{ $item->building->name ?? '--' }}</span>
                                          </div>
                                      </div>
                                  </div>
                              </td>
                               <td>
-                                 {{ $item->username }}
-                              </td>
-                              <td>
-                                 <a href="#">
-                                    <div class="d-inline-block ml-1">{{ $item->division->name ??'--' }}</div>
-                                 </a>
+                                 {{ $item->dimensions ?? '--' }} m&sup2;
                               </td>
                               <td>
                                  @php
-                                    $role = strtolower($item->role->name);
+                                    $condition = strtolower($item->condition->name);
                                     $badgeClass = '';
    
-                                    switch ($role) {
-                                       case 'admin gudang':
-                                             $badgeClass = 'badge-warning';
-                                             $icon = '<i class="fas fa-user-cog"></i>';
-                                             break;
-                                       case 'admin divisi':
+                                    switch ($condition) {
+                                       case 'baik':
                                              $badgeClass = 'badge-success';
-                                             $icon = '<i class="fas fa-user"></i>';
+                                             $icon = '<i class="fas fa-smile-beam"></i>';
                                              break;
-                                       case 'wakil rektor 2':
-                                             $badgeClass = 'badge-primary';
-                                             $icon = '<i class="fas fa-user-graduate"></i>';
+                                       case 'perlu perbaikan':
+                                             $badgeClass = 'badge-warning';
+                                             $icon = '<i class="fas fa-frown-open"></i>';
+                                             break;
+                                       case 'buruk':
+                                             $badgeClass = 'badge-danger';
+                                             $icon = '<i class="fas fa-angry"></i>';
                                              break;
                                        default:
                                              $badgeClass = 'badge-secondary';
+                                             $icon = '<i class="fas fa-question-circle"></i>';
                                              break;
                                     }
                                  @endphp
    
-                                 <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->role->name }}</div>
+                                 <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->condition->name }}</div>
                               </td>
                               <td>
-                                 <a href="{{ route('users.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                 <form class="d-inline" action="{{ route('users.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
+                                 <a href="{{ route('divisions.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                 <form class="d-inline" action="{{ route('divisions.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
                                     @method('delete')
                                     @csrf
                                     <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus user ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
@@ -124,5 +115,5 @@
    </div>
 </div>
 
-@include('inventory_admin.users.modal')
+{{-- @include('inventory_admin.divisions.modal') --}}
 @endsection

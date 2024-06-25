@@ -65,7 +65,7 @@
       @if (Auth::user()->photo)
         <img alt="image" src="{{ asset('storage/photos/user/' . Auth::user()->photo) }}" style="width:30px; height:30px; object-fit:cover;" class="rounded-circle mr-1">
       @else
-        <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+        <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
       @endif
       <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
       <div class="dropdown-menu dropdown-menu-right">

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('divisions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique('name_ci');
+            $table->string('division_head')->nullable();
             $table->string('dimensions');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('condition_id');
