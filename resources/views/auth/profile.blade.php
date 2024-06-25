@@ -50,31 +50,31 @@
                   <div class="row">
                      <div class="form-group col-md-6 col-12">
                         <label>Nama <x-label-required></x-label-required></label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $auth->name }}" placeholder="Masukkan nama">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $auth->name }}" placeholder="Masukkan Nama">
                         <x-invalid-feedback field='name'></x-invalid-feedback>
                      </div>
                      <div class="form-group col-md-6 col-12">
                         <label>Username <x-label-required></x-label-required></label>
-                        <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $auth->username }}" placeholder="Masukkan username">
+                        <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $auth->username }}" placeholder="Masukkan Username">
                         <x-invalid-feedback field='username'></x-invalid-feedback>
                      </div>
                   </div>
                   <div class="row">
                      <div class="form-group col-md-7 col-12">
                         <label>Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $auth->email }}" placeholder="Masukkan email">
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $auth->email }}" placeholder="Masukkan Email">
                         <x-invalid-feedback field='email'></x-invalid-feedback>
                      </div>
                      <div class="form-group col-md-5 col-12">
                         <label>No. Handphone</label>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $auth->phone }}" placeholder="Masukkan nomor">
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $auth->phone }}" placeholder="Masukkan Nomor">
                         <x-invalid-feedback field='phone'></x-invalid-feedback>
                      </div>
                   </div>
                   <div class="row">
                      <div class="form-group col-md-12 col-12">
                         <label>Password</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukkan password">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukkan Password">
                         <x-invalid-feedback field='password'></x-invalid-feedback>
                         <div class="form-text text-muted">Kosongkan jika tidak ingin menggantinya</div>
                      </div>

@@ -20,7 +20,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
+        'phone',
+        'division_id',
+        'role_id',
+        'photo',
     ];
 
     /**
@@ -46,5 +51,10 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
     }
 }

@@ -34,15 +34,15 @@ Route::middleware(['auth'])->group(function () {
         
     }); 
 
-    Route::prefix('inventory_admin')->middleware(['role:2'])->group(function () {
+    Route::prefix('inventory-admin')->middleware(['role:2'])->group(function () {
+        Route::resource('/users', \App\Http\Controllers\InventoryAdmin\UserController::class)->names('users');
+    }); 
+
+    Route::prefix('division-admin')->middleware(['role:3'])->group(function () {
         
     }); 
 
-    Route::prefix('division_admin')->middleware(['role:3'])->group(function () {
-        
-    }); 
-
-    Route::prefix('vice_rector2')->middleware(['role:4'])->group(function () {
+    Route::prefix('vice-rector2')->middleware(['role:4'])->group(function () {
         
     }); 
     

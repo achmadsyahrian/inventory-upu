@@ -22,7 +22,7 @@ class ProfileController extends Controller
             'name' => 'required',
             'username' => 'required|min:5',
             'email' => 'nullable|email',
-            'phone' => 'nullable|numeric',
+            'phone' => ['nullable', 'regex:/^[0-9]+$/'],
             'password' => 'nullable|min:5',
         ]);
 

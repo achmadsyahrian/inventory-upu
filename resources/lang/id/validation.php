@@ -6,6 +6,8 @@ return [
         'name' => 'nama',
         'phone' => 'nomor handphone',
         'photo' => 'foto',
+        'role_id' => 'level',
+        'division_id' => 'divisi',
     ],
     'regex' => 'Kolom :attribute harus memenuhi format yang benar.',
     'email' => 'Kolom :attribute harus berupa alamat email yang valid.',

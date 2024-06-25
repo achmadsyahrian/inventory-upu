@@ -13,6 +13,8 @@
 <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
 <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
+<script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
 
 <!-- Page Specific JS File -->
 <script src="{{ asset('assets/js/page/index.js') }}"></script>
@@ -20,6 +22,5 @@
 <!-- Template JS File -->
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
-
 {{-- Me --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
