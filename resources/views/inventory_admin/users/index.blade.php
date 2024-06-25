@@ -109,7 +109,11 @@
                            </td>
                            <td>
                               <a href="{{ route('users.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                              <a class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
+                              <form class="d-inline" action="{{ route('users.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
+                                 @method('delete')
+                                 @csrf
+                                 <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus user ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
+                              </form>
                             </td>
                         </tr>
                      @empty

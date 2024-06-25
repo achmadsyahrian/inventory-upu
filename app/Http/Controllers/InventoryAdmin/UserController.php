@@ -133,6 +133,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if ($user->photo) {
+            Storage::delete('public/photos/user/'. $user->photo);
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'Data pengguna berhasil dihapus');
     }
 }
