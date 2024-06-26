@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\InventoryAdmin;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Division;
@@ -21,7 +21,7 @@ class UserController extends Controller
         $divisions = Division::select('id', 'name')->get();
         $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
         
-        return view('inventory_admin.users.index', compact('data', 'roles', 'divisions'));
+        return view('administrator.users.index', compact('data', 'roles', 'divisions'));
     }
 
     /**
@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $divisions = Division::select('id', 'name')->get();
         $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
-        return view('inventory_admin.users.create', compact('roles', 'divisions'));
+        return view('administrator.users.create', compact('roles', 'divisions'));
     }
 
     /**
@@ -64,7 +64,7 @@ class UserController extends Controller
         // Simpan data ke database
         $user = User::create($validatedData);
 
-        return redirect()->route('inventory_admin.users.index')->with('success', 'Pengguna baru berhasil ditambahkan');
+        return redirect()->route('users.index')->with('success', 'Pengguna baru berhasil ditambahkan');
     }
 
 
@@ -84,7 +84,7 @@ class UserController extends Controller
     {
         $divisions = Division::select('id', 'name')->get();
         $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
-        return view('inventory_admin.users.edit', compact('roles', 'divisions', 'user'));
+        return view('administrator.users.edit', compact('roles', 'divisions', 'user'));
     }
 
     /**
@@ -124,7 +124,7 @@ class UserController extends Controller
         // Simpan data ke database
         $user->update($validatedData);
 
-        return redirect()->route('inventory_admin.users.index')->with('success', 'Data pengguna berhasil diperbarui');
+        return redirect()->route('users.index')->with('success', 'Data pengguna berhasil diperbarui');
     }
 
 
@@ -139,7 +139,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('inventory_admin.users.index')->with('success', 'Data pengguna berhasil dihapus');
+        return redirect()->route('users.index')->with('success', 'Data pengguna berhasil dihapus');
     }
 
     private function searchUsers(Request $request)

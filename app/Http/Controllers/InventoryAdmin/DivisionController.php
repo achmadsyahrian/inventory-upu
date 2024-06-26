@@ -49,7 +49,7 @@ class DivisionController extends Controller
         // Simpan data ke database
         Division::create($validatedData);
 
-        return redirect()->route('divisions.index')->with('success', 'Divisi baru berhasil ditambahkan');
+        return redirect()->route('inventory_admin.divisions.index')->with('success', 'Divisi baru berhasil ditambahkan');
     }
 
 
@@ -89,7 +89,7 @@ class DivisionController extends Controller
         // Simpan data ke database
         $division->update($validatedData);
 
-        return redirect()->route('divisions.index')->with('success', 'Data divisi berhasil diperbarui');
+        return redirect()->route('inventory_admin.divisions.index')->with('success', 'Data divisi berhasil diperbarui');
     }
 
     /**
@@ -98,7 +98,7 @@ class DivisionController extends Controller
     public function destroy(Division $division)
     {
         $division->delete();
-        return redirect()->route('divisions.index')->with('success', 'Data divisi berhasil dihapus');
+        return redirect()->route('inventory_admin.divisions.index')->with('success', 'Data divisi berhasil dihapus');
     }
 
     private function searchDivisions(Request $request)

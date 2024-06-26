@@ -7,7 +7,7 @@
    <div class="section-header">
       <h1>Divisi</h1>
       <div class="section-header-button">
-         <a href="{{ route('divisions.create') }}" class="btn btn-primary">Tambah</a>
+         <a href="{{ route('inventory_admin.divisions.create') }}" class="btn btn-primary">Tambah</a>
       </div>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
@@ -31,7 +31,7 @@
                   <div class="float-right">
                      <div class="input-group">
                         <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
-                        <form action="{{ route('divisions.index') }}" method="GET" style="display:inline;">
+                        <form action="{{ route('inventory_admin.divisions.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>
                         </form>
                      </div>
@@ -95,8 +95,8 @@
                                  <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->condition->name }}</div>
                               </td>
                               <td>
-                                 <a href="{{ route('divisions.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                 <form class="d-inline" action="{{ route('divisions.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
+                                 <a href="{{ route('inventory_admin.divisions.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                 <form class="d-inline" action="{{ route('inventory_admin.divisions.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
                                     @method('delete')
                                     @csrf
                                     <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus user ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
