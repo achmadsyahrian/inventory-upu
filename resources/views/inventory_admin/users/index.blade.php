@@ -106,7 +106,7 @@
                                  <form class="d-inline" action="{{ route('inventory_admin.users.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
                                     @method('delete')
                                     @csrf
-                                    <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus user ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus pengguna ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
                                  </form>
                                </td>
                            </tr>

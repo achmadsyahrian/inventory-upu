@@ -29,7 +29,7 @@
                   @method('patch')
                   @csrf
                   <div class="card-header">
-                     <h4>Tambah Divisi</h4>
+                     <h4>Edit Divisi</h4>
                   </div>
                   <div class="card-body">
                      <div class="row">

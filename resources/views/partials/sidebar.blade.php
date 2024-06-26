@@ -16,6 +16,7 @@
 
         <li class="menu-header">Manajemen</li>
         <li class="{{ Request::is('*users*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('administrator.users.index') }}"><i class="fas fa-user"></i> <span>Pengguna</span></a></li>
+        <li class="{{ Request::is('*buildings*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('administrator.buildings.index') }}"><i class="fas fa-map-marked-alt"></i> <span>Lokasi Bangunan</span></a></li>
         <li class="{{ Request::is('*divisions*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('administrator.divisions.index') }}"><i class="fas fa-building"></i> <span>Divisi</span></a></li>
         <li><a class="nav-link" href="/"><i class="fas fa-cubes"></i> <span>Barang</span></a></li>
         
