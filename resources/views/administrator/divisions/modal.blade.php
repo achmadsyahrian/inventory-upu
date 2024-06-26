@@ -1,7 +1,7 @@
 {{-- Modal --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog">
-      <form action="{{ route('administrator.users.index') }}" method="get">
+      <form action="{{ route('administrator.divisions.index') }}" method="get">
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLabel">Pencarian Lanjutan</h5>
@@ -17,38 +17,33 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label>Username</label>
+                  <label>Kepala Bagian</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Username" value="{{ request("username") }}" name="username" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Nama Kabag" value="{{ request("division_head") }}" name="division_head" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
-                  <label>Email</label>
+                  <label>Luas (m&sup2;)</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Email" value="{{ request("email") }}" name="email" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Luas" value="{{ request("dimensions") }}" name="dimensions" autocomplete="off">
                   </div>
+                  <div class="form-text text-muted">Contoh : 20,24</div>
                </div>
                <div class="form-group">
-                  <label>Phone</label>
-                  <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Phone" value="{{ request("phone") }}" name="phone" autocomplete="off">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label>Divisi</label>
-                  <select class="form-control selectric" name="division_id">
-                     <option selected disabled>Pilih Divisi</option>
-                     @foreach ($divisions as $item)
-                     <option value="{{ $item->id }}" {{ request('division_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                  <label>Lokasi</label>
+                  <select class="form-control selectric" name="building_id">
+                     <option selected disabled>Pilih Lokasi</option>
+                     @foreach ($buildings as $item)
+                        <option value="{{ $item->id }}" {{ request('building_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
                   </select>
                </div>
                <div class="form-group">
-                  <label>Level</label>
-                  <select class="form-control selectric" name="role_id">
-                     <option selected disabled>Pilih Level</option>
-                     @foreach ($roles as $item)
-                     <option value="{{ $item->id }}" {{ request('role_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                  <label>Kondisi</label>
+                  <select class="form-control selectric" name="condition_id">
+                     <option selected disabled>Pilih Kondisi</option>
+                     @foreach ($conditions as $item)
+                        <option value="{{ $item->id }}" {{ request('condition_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
                   </select>
                </div>

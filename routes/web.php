@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::prefix('administrator')->middleware(['role:1'])->name('administrator.')->group(function () {
         Route::resource('/users', \App\Http\Controllers\Administrator\UserController::class)->names('users');
+        Route::resource('/divisions', \App\Http\Controllers\Administrator\DivisionController::class)->names('divisions');
     }); 
 
     Route::prefix('inventory-admin')->middleware(['role:2'])->name('inventory_admin.')->group(function () {

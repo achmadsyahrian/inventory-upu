@@ -19,7 +19,7 @@ class UserController extends Controller
         $data = $this->searchUsers($request);
 
         $divisions = Division::select('id', 'name')->get();
-        $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
+        $roles = Role::select('id', 'name')->get();
         
         return view('administrator.users.index', compact('data', 'roles', 'divisions'));
     }
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         $divisions = Division::select('id', 'name')->get();
-        $roles = Role::select('id', 'name')->whereNotIn('id', [1])->get();
+        $roles = Role::select('id', 'name')->get();
         return view('administrator.users.create', compact('roles', 'divisions'));
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
         // Simpan data ke database
         $user = User::create($validatedData);
 
-        return redirect()->route('users.index')->with('success', 'Pengguna baru berhasil ditambahkan');
+        return redirect()->route('administrator.users.index')->with('success', 'Pengguna baru berhasil ditambahkan');
     }
 
 
@@ -124,7 +124,7 @@ class UserController extends Controller
         // Simpan data ke database
         $user->update($validatedData);
 
-        return redirect()->route('users.index')->with('success', 'Data pengguna berhasil diperbarui');
+        return redirect()->route('administrator.users.index')->with('success', 'Data pengguna berhasil diperbarui');
     }
 
 
@@ -139,13 +139,12 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'Data pengguna berhasil dihapus');
+        return redirect()->route('administrator.users.index')->with('success', 'Data pengguna berhasil dihapus');
     }
 
     private function searchUsers(Request $request)
     {
         $query = User::with('role', 'division')
-                    ->whereNotIn('role_id', [1])
                     ->whereNotIn('id', [auth()->id()]);
 
         if ($request->filled('name')) {

@@ -6,12 +6,12 @@
 
    <div class="section-header">
       <div class="section-header-back">
-         <a href="{{ route('inventory_admin.users.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+         <a href="{{ route('administrator.users.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
       </div>
       <h1>Edit User</h1>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
-         <div class="breadcrumb-item active"><a href="{{ route('inventory_admin.users.index') }}">Pengguna</a></div>
+         <div class="breadcrumb-item active"><a href="{{ route('administrator.users.index') }}">Pengguna</a></div>
          <div class="breadcrumb-item">Edit</div>
       </div>
    </div>
@@ -25,7 +25,7 @@
       <div class="row mt-sm-4">
          <div class="col-12 col-md-12 col-lg-12">
             <div class="card">
-               <form action="{{ route('inventory_admin.users.update', [$user]) }}" method="post" enctype="multipart/form-data" novalidate="">
+               <form action="{{ route('administrator.users.update', [$user]) }}" method="post" enctype="multipart/form-data" novalidate="">
                   @method('patch')
                   @csrf
                   <div class="card-header">
