@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique('name_ci');
             $table->string('division_head')->nullable();
-            $table->string('dimensions');
+            $table->string('dimensions')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('condition_id');
             $table->unsignedBigInteger('building_id')->nullable();

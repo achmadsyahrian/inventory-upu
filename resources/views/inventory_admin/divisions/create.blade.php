@@ -57,7 +57,7 @@
                            @enderror
                         </div>
                         <div class="form-group col-md-6 col-12">
-                           <label>Luas</label>
+                           <label>Luas (m&sup2;)</label>
                            <input type="text" class="form-control @error('dimensions') is-invalid @enderror" name="dimensions" value="{{ old('dimensions') }}" placeholder="Masukkan Luas" autocomplete="off">
                            <x-invalid-feedback field='dimensions'></x-invalid-feedback>
                            <div class="form-text text-muted">Contoh : 20,24</div>

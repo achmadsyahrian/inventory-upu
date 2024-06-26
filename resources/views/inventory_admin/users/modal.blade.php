@@ -13,25 +13,25 @@
                <div class="form-group">
                   <label>Nama</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Nama" name="name" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Nama" value="{{ request("name") }}" name="name" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
                   <label>Username</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Username" name="username" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Username" value="{{ request("username") }}" name="username" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
                   <label>Email</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Email" name="email" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Email" value="{{ request("email") }}" name="email" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
                   <label>Phone</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Phone" name="phone" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Phone" value="{{ request("phone") }}" name="phone" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
@@ -39,7 +39,7 @@
                   <select class="form-control selectric" name="division_id">
                      <option selected disabled>Pilih Divisi</option>
                      @foreach ($divisions as $item)
-                     <option value="{{ $item->id }}" {{ old('division_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                     <option value="{{ $item->id }}" {{ request('division_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
                   </select>
                </div>
@@ -48,7 +48,7 @@
                   <select class="form-control selectric" name="role_id">
                      <option selected disabled>Pilih Level</option>
                      @foreach ($roles as $item)
-                     <option value="{{ $item->id }}" {{ old('role_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                     <option value="{{ $item->id }}" {{ request('role_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
                   </select>
                </div>

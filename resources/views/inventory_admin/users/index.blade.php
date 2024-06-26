@@ -80,7 +80,7 @@
                                     $badgeClass = '';
    
                                     switch ($role) {
-                                       case 'admin gudang':
+                                       case 'admin inventori':
                                              $badgeClass = 'badge-warning';
                                              $icon = '<i class="fas fa-user-cog"></i>';
                                              break;
@@ -94,6 +94,7 @@
                                              break;
                                        default:
                                              $badgeClass = 'badge-secondary';
+                                             $icon = '<i class="fas fa-question-circle"></i>';
                                              break;
                                     }
                                  @endphp

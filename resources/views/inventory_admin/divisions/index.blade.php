@@ -43,7 +43,8 @@
                         <tr>
                            <th>No</th>
                            <th>Nama</th>
-                           <th>Luas m&sup2;</th>
+                           <th>Kabag</th>
+                           <th>Luas (m&sup2;)</th>
                            <th>Kondisi</th>
                            <th>Aksi</th>
                         </tr>
@@ -61,8 +62,10 @@
                                      </div>
                                  </div>
                              </td>
+                             <td>{{ $item->division_head ?? '--' }}</td>
                               <td>
-                                 {{ $item->dimensions ?? '--' }} m&sup2;
+                                 {{ $item->dimensions ? $item->dimensions . ' m²' : '--' }}
+
                               </td>
                               <td>
                                  @php
@@ -115,5 +118,5 @@
    </div>
 </div>
 
-{{-- @include('inventory_admin.divisions.modal') --}}
+@include('inventory_admin.divisions.modal')
 @endsection
