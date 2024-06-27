@@ -36,7 +36,7 @@
                            <label>Foto</label>
                            <div class="custom-file">
                               <input type="file" name="photo" class="custom-file-input @error('photo') is-invalid @enderror" id="profile-logo">
-                              <label class="custom-file-label">Choose File</label>
+                              <label class="custom-file-label">Pilih Gambar</label>
                            </div>
                            @error('photo')
                            <div class="form-text text-danger">{{ $message }}</div>

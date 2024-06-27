@@ -41,7 +41,7 @@ class UserController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'photo' => 'nullable|image|max:2048', // 2MB
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // 2MB
             'name' => 'required',
             'username' => 'required|min:5|unique:users,username',
             'email' => 'nullable|email|unique:users,email',
@@ -93,7 +93,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validatedData = $request->validate([
-            'photo' => 'nullable|image|max:2048', // 2MB
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // 2MB
             'name' => 'required',
             'username' => ['required', 'min:5', 'unique:users,username,' . $user->id],
             'email' => ['nullable', 'email', 'unique:users,email,' . $user->id],

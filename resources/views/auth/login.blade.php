@@ -20,7 +20,7 @@
                   @csrf
                   <div class="form-group">
                      <label for="username">Username</label>
-                     <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" placeholder="Masukkan username" required autofocus autocomplete="off">
+                     <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" value="{{ old('username') }}" placeholder="Masukkan username" required autofocus autocomplete="off">
                      <x-invalid-feedback field='username'></x-invalid-feedback>
                   </div>
 
@@ -33,13 +33,17 @@
                   </div>
 
                   <div class="form-group">
-                     <label>Role</label>
-                     <select class="form-control" name="role_id">
-                        @foreach ($roles as $item) 
-                           <option value="{{ $item->id }}">{{ $item->name }}</option>
+                     <label>Level</label>
+                     <select class="form-control selectric" name="role_id">
+                        <option selected disabled>Pilih Level</option>
+                        @foreach ($roles as $item)
+                        <option value="{{ $item->id }}" {{ old('role_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                         @endforeach
                      </select>
-                   </div>
+                     @error('role_id')
+                     <div class="form-text text-danger">{{ $message }}</div>
+                     @enderror
+                  </div>
 
                   <div class="form-group">
                      <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
