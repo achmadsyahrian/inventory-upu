@@ -8,19 +8,21 @@
       <div class="section-header-back">
          <a href="{{ route('inventory_admin.itementries.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
       </div>
-      <h1>Tambah Barang</h1>
+      <h1>Tambah Stok Barang</h1>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
-         <div class="breadcrumb-item active"><a href="{{ route('inventory_admin.itementries.index') }}">Data Inventaris</a></div>
+         <div class="breadcrumb-item active"><a href="{{ route('inventory_admin.itementries.index') }}">Pemasukan Barang</a></div>
          <div class="breadcrumb-item">Tambah</div>
       </div>
    </div>
 
    <div class="section-body">
-      <h2 class="section-title">Tambah Barang</h2>
+      <h2 class="section-title">Tambah Stok</h2>
       <p class="section-lead">
-         Silakan lengkapi informasi untuk menambahkan barang baru ke dalam sistem inventaris.
+         Harap lengkapi informasi untuk menambahkan stok barang ke dalam inventaris.
+         Jika barang belum terdaftar, silakan tambahkan barang baru <a href="{{ route('inventory_admin.inventoryitems.create') }}"> di sini</a>.
       </p>
+
 
       <div class="row mt-sm-4">
          <div class="col-12 col-md-12 col-lg-12">
@@ -28,7 +30,7 @@
                <form action="{{ route('inventory_admin.itementries.store') }}" method="post" novalidate="">
                   @csrf
                   <div class="card-header">
-                     <h4>Tambah Barang</h4>
+                     <h4>Tambah Stok Barang</h4>
                   </div>
                   <div class="card-body">
                      <div class="row">

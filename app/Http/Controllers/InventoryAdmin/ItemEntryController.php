@@ -12,10 +12,12 @@ class ItemEntryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = ItemEntry::with('inventoryItem')->paginate(10);
-        return view('inventory_admin.item_entries.index', compact('data'));
+        $data = $this->searchData($request);
+        $inventoryItems = InventoryItem::all();
+        
+        return view('inventory_admin.item_entries.index', compact('data', 'inventoryItems'));
     }
 
     /**
@@ -60,7 +62,7 @@ class ItemEntryController extends Controller
      */
     public function show(ItemEntry $itemEntry)
     {
-        //
+        return redirect()->route('inventory_admin.itementries.index');
     }
 
     /**
@@ -68,7 +70,8 @@ class ItemEntryController extends Controller
      */
     public function edit(ItemEntry $itemEntry)
     {
-        //
+        // Kembalikan ke index jika ada yg mencoba akses
+        return redirect()->route('inventory_admin.itementries.index');
     }
 
     /**
@@ -84,7 +87,15 @@ class ItemEntryController extends Controller
      */
     public function destroy(ItemEntry $itemEntry)
     {
-        //
+        // Hapus data entry
+        $itemEntry->delete();
+
+        // Kurangi stok inventory item
+        $inventoryItem = InventoryItem::find($itemEntry->inventory_item_id);
+        $inventoryItem->stock -= $itemEntry->quantity;
+        $inventoryItem->save();
+
+        return redirect()->route('inventory_admin.itementries.index')->with('success', 'Stok barang berhasil dihapus');
     }
 
     // Ambil Inentory Item Sesuai Pilihan
@@ -107,4 +118,31 @@ class ItemEntryController extends Controller
         return response()->json(['error' => 'Item not found'], 404);
     }
 
+    private function searchData(Request $request)
+    {
+        $query = ItemEntry::with('inventoryItem');
+
+        if ($request->filled('inventory_item_id')) {
+            $query->where('inventory_item_id', $request->inventory_item_id);
+        }
+        if ($request->filled('entry_date')) {
+            $query->where('entry_date', $request->entry_date);
+        }
+        if ($request->filled('supplier')) {
+            $query->where('supplier', 'like', '%' . $request->supplier . '%');
+        }
+        if ($request->filled('quantity')) {
+            $query->where('quantity', '<=', $request->quantity);
+        }
+        if ($request->filled('price')) {
+            // Hapus karakter titik dari price
+            $requestPrice = str_replace('.', '', $request->price);
+            $query->where('price', '<=', $requestPrice);
+        }
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->paginate(10)->appends($request->all());
+    }
+    
 }

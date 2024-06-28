@@ -77,7 +77,7 @@
                               <div class="badge badge-success">Rp. {{ number_format($item->price, 0, ',', '.') }}</div>
                            </td>
                            <td>
-                              <a href="{{ route('inventory_admin.itementries.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                              {{-- <a href="{{ route('inventory_admin.itementries.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a> --}}
                               <form class="d-inline" action="{{ route('inventory_admin.itementries.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
                                  @method('delete')
                                  @csrf
@@ -100,5 +100,5 @@
 </div>
 </div>
 
-{{-- @include('inventory_admin.inventory_items.modal') --}}
+@include('inventory_admin.item_entries.modal')
 @endsection

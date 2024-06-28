@@ -1,7 +1,7 @@
 {{-- Modal --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog">
-      <form action="{{ route('inventory_admin.inventoryitems.index') }}" method="get">
+      <form action="{{ route('inventory_admin.itementries.index') }}" method="get">
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLabel">Pencarian Lanjutan</h5>
@@ -11,48 +11,41 @@
             </div>
             <div class="modal-body">
                <div class="form-group">
-                  <label>Nama</label>
+                  <label>Barang</label>
+                  <select class="form-control selectric" name="inventory_item_id">
+                     <option selected disabled>Pilih Barang</option>
+                     @foreach ($inventoryItems as $item)
+                        <option value="{{ $item->id }}" {{ request('inventory_item_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                     @endforeach
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label>Tanggal Masuk </label>
+                  <input type="date" class="form-control datepicker" name="entry_date" value="{{ request('entry_date') }}">
+               </div>
+               <div class="form-group">
+                  <label>Supplier</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Nama" value="{{ request("name") }}" name="name" autocomplete="off">
+                     <input type="text" class="form-control" placeholder="Masukkan Supplier" value="{{ request("supplier") }}" name="supplier" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
-                  <label>Merek</label>
+                  <label>Jumlah</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Masukkan Merek" value="{{ request("brand") }}" name="brand" autocomplete="off">
+                     <input type="number" min="1" class="form-control" name="quantity" value="{{ request('quantity') }}" placeholder="Masukkan Jumlah" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
-                  <label>Tipe</label>
-                  <select class="form-control selectric" name="type_id">
-                     <option selected disabled>Pilih Tipe</option>
-                     @foreach ($types as $item)
-                        <option value="{{ $item->id }}" {{ request('type_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <div class="form-group">
-                  <label>Kondisi</label>
-                  <select class="form-control selectric" name="condition_id">
-                     <option selected disabled>Pilih Kondisi</option>
-                     @foreach ($conditions as $item)
-                        <option value="{{ $item->id }}" {{ request('condition_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <div class="form-group">
-                  <label>Satuan</label>
-                  <select class="form-control selectric" name="unit_id">
-                     <option selected disabled>Pilih Satuan</option>
-                     @foreach ($units as $item)
-                        <option value="{{ $item->id }}" {{ request('unit_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <div class="form-group">
-                  <label>Stok</label>
+                  <label>Harga</label>
                   <div class="input-group">
-                     <input type="number" min="0" class="form-control" placeholder="Masukkan Jumlah" value="{{ request("stock") }}" name="stock" autocomplete="off">
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                Rp.
+                            </div>
+                        </div>
+                        <input type="numeric" class="form-control" id="price-input" name="price" value="{{ request('price') }}" placeholder="100000" autocomplete="off">
+                    </div>
                   </div>
                </div>
             </div>
