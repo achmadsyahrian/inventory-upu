@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('inventory_item_id');
             $table->integer('quantity');
             $table->string('supplier')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 0);
             $table->date('entry_date');
             $table->timestamps();
 

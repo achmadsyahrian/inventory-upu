@@ -27,11 +27,11 @@
         <li class="{{ Request::is('*divisions*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.divisions.index') }}"><i class="fas fa-building"></i> <span>Divisi</span></a></li>
 
         <li class="menu-header">Inventaris</li>
-        <li class="dropdown {{ Request::is('*inventory-item*') ? 'active' : '' }}">
+        <li class="dropdown {{ Request::is('*inventory-items*', '*item-entries*') ? 'active' : '' }}">
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cubes"></i> <span>Inventaris</span></a>
           <ul class="dropdown-menu">
-            <li class="{{ Request::is('*inventory-item*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.inventoryitems.index') }}">Stok Barang</a></li>
-            <li><a class="nav-link" href="layout-transparent.html">Pemasukan Barang</a></li>
+            <li class="{{ Request::is('*inventory-items*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.inventoryitems.index') }}">Stok Barang</a></li>
+            <li class="{{ Request::is('*item-entries*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.itementries.index') }}">Pemasukan Barang</a></li>
           </ul>
         </li>
         <li><a class="nav-link" href="credits.html"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>

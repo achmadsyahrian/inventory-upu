@@ -57,8 +57,8 @@
                               <div class="d-flex align-items-center">
                                  <div>
                                     <div>{{ $item->name }}</div>
-                                    <div>
-                                       Merek : <span class="text-primary">{{ $item->brand ?? '--' }}</span>
+                                    <div class="text-muted">
+                                       Merek : <span class="text-muted">{{ $item->brand ?? '--' }}</span>
                                     </div>
                                  </div>
                               </div>

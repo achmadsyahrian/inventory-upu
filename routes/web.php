@@ -39,7 +39,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('inventory-admin')->middleware(['role:2'])->name('inventory_admin.')->group(function () {
         Route::resource('/users', \App\Http\Controllers\InventoryAdmin\UserController::class)->names('users');
         Route::resource('/divisions', \App\Http\Controllers\InventoryAdmin\DivisionController::class)->names('divisions');
-        Route::resource('/inventory-item', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
+        Route::resource('/inventory-items', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
+        Route::resource('/item-entries', \App\Http\Controllers\InventoryAdmin\ItemEntryController::class)->names('itementries');
+          Route::get('/get-inventory-item/{id}', [\App\Http\Controllers\InventoryAdmin\ItemEntryController::class, 'getInventoryItem']);
     }); 
 
     Route::prefix('division-admin')->middleware(['role:3'])->group(function () {

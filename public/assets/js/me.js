@@ -1,3 +1,55 @@
+// Format Harga
+document.getElementById('price-input').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/[^,\d]/g, '').toString();
+    let split = value.split(',');
+    let remainder = split[0].length % 3;
+    let rupiah = split[0].substr(0, remainder);
+    let thousand = split[0].substr(remainder).match(/\d{3}/gi);
+
+    if (thousand) {
+        let separator = remainder ? '.' : '';
+        rupiah += separator + thousand.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    e.target.value = rupiah;
+});
+
+// Ambil Inventory Item
+$(document).ready(function() {
+    $('#inventory-item-select').on('change', function() {
+        var itemId = $(this).val();
+        if (itemId) {
+            $.ajax({
+                url: '/inventory-admin/get-inventory-item/' + itemId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#item-brand').val(data.brand);
+                    $('#item-type').val(data.type);
+                    $('#item-unit').val(data.unit);
+                    $('#item-condition').val(data.condition);
+                    $('#item-stock').val(data.stock);
+                    $('#item-description').val(data.description);
+
+                    if (data.photo) {
+                      var photoUrl = '/storage/photos/inventory_item/' + data.photo;
+                       $('#preview-photo').attr('src', photoUrl);
+                   } else {
+                      $('#preview-photo').attr('src', "/assets/img/me/empty-photo2.jpg");
+                   }
+
+                //    if (data.stock == 0) {
+                //         $('#save-button').prop('disabled', true);
+                //     } else {
+                //         $('#save-button').prop('disabled', false);
+                //     }
+                }
+            });
+        }
+    });
+});
+
 function showDeleteConfirmation(action, confirmationText, idForm) {
    Swal.fire({
        title: 'Konfirmasi',
