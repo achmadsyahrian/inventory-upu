@@ -34,7 +34,7 @@
                <li class="{{ Request::is('*item-entries*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.itementries.index') }}">Pemasukan Barang</a></li>
             </ul>
          </li>
-         <li><a class="nav-link" href="credits.html"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
+         <li class="{{ Request::is('*item-request*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.divisionrequests.index') }}"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
          <li><a class="nav-link" href="credits.html"><i class="fas fa-handshake"></i> <span>Peminjaman Barang</span></a></li>
 
          <li class="menu-header">Divisi</li>

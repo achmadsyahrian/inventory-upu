@@ -40,8 +40,13 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('inventory-admin')->middleware(['role:2'])->name('inventory_admin.')->group(function () {
         Route::resource('/users', \App\Http\Controllers\InventoryAdmin\UserController::class)->names('users');
         Route::resource('/divisions', \App\Http\Controllers\InventoryAdmin\DivisionController::class)->names('divisions');
+        
         Route::resource('/inventory-items', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
         Route::resource('/item-entries', \App\Http\Controllers\InventoryAdmin\ItemEntryController::class)->names('itementries');
+
+        Route::resource('/item-request', \App\Http\Controllers\InventoryAdmin\DivisionRequestController::class)->names('divisionrequests');
+        Route::get('/item-request/{division}/{date}/detail', [\App\Http\Controllers\InventoryAdmin\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
+
     }); 
 
     Route::prefix('division-admin')->middleware(['role:3'])->name('division_admin.')->group(function () {
