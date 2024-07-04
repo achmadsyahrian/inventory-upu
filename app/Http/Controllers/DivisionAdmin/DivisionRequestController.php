@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DivisionAdmin;
 
+use App\Http\Controllers\Controller;
 use App\Models\DivisionRequest;
 use Illuminate\Http\Request;
 

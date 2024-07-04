@@ -41,11 +41,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/divisions', \App\Http\Controllers\InventoryAdmin\DivisionController::class)->names('divisions');
         Route::resource('/inventory-items', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
         Route::resource('/item-entries', \App\Http\Controllers\InventoryAdmin\ItemEntryController::class)->names('itementries');
-          Route::get('/get-inventory-item/{id}', [\App\Http\Controllers\InventoryAdmin\ItemEntryController::class, 'getInventoryItem']);
+        Route::get('/get-inventory-item/{id}', [\App\Http\Controllers\InventoryAdmin\ItemEntryController::class, 'getInventoryItem']);
     }); 
 
-    Route::prefix('division-admin')->middleware(['role:3'])->group(function () {
-        
+    Route::prefix('division-admin')->middleware(['role:3'])->name('division_admin.')->group(function () {
+        Route::resource('/item-request', \App\Http\Controllers\DivisionAdmin\DivisionRequestController::class)->names('divisionrequest');
+        Route::resource('/inventory-items', \App\Http\Controllers\DivisionAdmin\InventoryItemController::class)->names('inventoryitems');
     }); 
 
     Route::prefix('vice-rector2')->middleware(['role:4'])->group(function () {
