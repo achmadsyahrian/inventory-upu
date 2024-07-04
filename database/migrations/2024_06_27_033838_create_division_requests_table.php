@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('inventory_item_id');
             $table->integer('quantity');
+            $table->string('requester_name');
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->timestamps();
         

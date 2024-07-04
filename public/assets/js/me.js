@@ -21,7 +21,7 @@ $(document).ready(function() {
         var itemId = $(this).val();
         if (itemId) {
             $.ajax({
-                url: '/inventory-admin/get-inventory-item/' + itemId,
+                url: '/get-inventory-item/' + itemId,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {

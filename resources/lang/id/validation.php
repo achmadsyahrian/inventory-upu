@@ -20,6 +20,7 @@ return [
         'inventory_item_id' => 'barang',
         'quantity' => 'jumlah',
         'price' => 'harga',
+        'requester_name' => 'nama pemesan',
     ],
     'regex' => 'Kolom :attribute harus memenuhi format yang benar.',
     'email' => 'Kolom :attribute harus berupa alamat email yang valid.',
