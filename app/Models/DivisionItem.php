@@ -14,5 +14,15 @@ class DivisionItem extends Model
         'division_id',
         'quantity',
     ];
+
+    public function inventoryItem()
+    {
+        return $this->belongsTo(InventoryItem::class);
+    }
+
+    public function division() 
+    {
+        return $this->belongsTo(Division::class);
+    }
     
 }

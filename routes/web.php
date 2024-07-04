@@ -47,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/item-request', \App\Http\Controllers\InventoryAdmin\DivisionRequestController::class)->names('divisionrequests');
         Route::get('/item-request/{division}/{date}/detail', [\App\Http\Controllers\InventoryAdmin\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
 
+        Route::resource('/division-items', \App\Http\Controllers\InventoryAdmin\DivisionItemController::class)->names('divisionitems');
+
     }); 
 
     Route::prefix('division-admin')->middleware(['role:3'])->name('division_admin.')->group(function () {

@@ -5,28 +5,25 @@
    <x-sweetalert></x-sweetalert>
 
    <div class="section-header">
-      <h1>Data Inventaris</h1>
-      <div class="section-header-button">
-         <a href="{{ route('inventory_admin.inventoryitems.create') }}" class="btn btn-primary">Tambah</a>
-      </div>
+      <h1>Data Barang</h1>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
-         <div class="breadcrumb-item">Data Inventaris</div>
+         <div class="breadcrumb-item">Barang Divisi</div>
       </div>
    </div>
 
    <div class="section-body">
-      <h2 class="section-title">Stok Barang</h2>
+      <h2 class="section-title">Barang Divisi</h2>
       <p class="section-lead">
-         Kelola informasi barang dengan mudah, termasuk penambahan, perubahan, dan penghapusan stok.
-         Untuk menambah stok barang, kunjungi <a href="#">halaman pemasukan barang</a>.
-      </p>
+         Akses informasi barang divisi secara lengkap.
+         Lihat stok barang yang tersedia di gudang dengan mengunjungi <a href="{{ route('inventory_admin.inventoryitems.index') }}">halaman ini</a>.
+      </p>      
 
       <div class="row mt-4">
          <div class="col-12">
             <div class="card">
                <div class="card-header">
-                  <h4>Data Inventaris</h4>
+                  <h4>Data Barang</h4>
                </div>
                <div class="card-body">
                   <div class="float-right">
@@ -43,9 +40,10 @@
                      <table class="table table-striped">
                         <tr>
                            <th>No</th>
+                           <th>Posisi</th>
                            <th>Nama</th>
                            <th>Tipe</th>
-                           <th>Stok</th>
+                           <th>Jumlah</th>
                            <th>Satuan</th>
                            <th>Kondisi</th>
                            <th>Aksi</th>
@@ -53,33 +51,31 @@
                         @forelse ($data as $item)
                         <tr>
                            <td>{{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}</td>
+                           <td>{{ $item->division->name }}</td>
                            <td>
                               <div class="d-flex align-items-center">
                                  <div>
-                                    <div>{{ $item->name }}</div>
+                                    <div>{{ $item->inventoryItem->name }}</div>
                                     <div class="text-muted">
-                                       Merek : <span class="text-muted">{{ $item->brand ?? '--' }}</span>
+                                       Merek : <span class="text-muted">{{ $item->inventoryItem->brand ?? '--' }}</span>
                                     </div>
                                  </div>
                               </div>
                            </td>
                            <td>
-                              <div class="badge badge-{{ $item->type_id == 1 ? 'primary' : 'info' }}" data-toggle="tooltip" title="{{ $item->type_id == 1 ? 'Habis Pakai' : 'Non-Habis Pakai' }}">
-                                 <i class="fas fa-{{ $item->type_id == 1 ? 'recycle' : 'box-open' }}"></i> 
+                              <div class="badge badge-{{ $item->inventoryItem->type_id == 1 ? 'primary' : 'info' }}" data-toggle="tooltip" title="{{ $item->inventoryItem->type_id == 1 ? 'Habis Pakai' : 'Non-Habis Pakai' }}">
+                                 <i class="fas fa-{{ $item->inventoryItem->type_id == 1 ? 'recycle' : 'box-open' }}"></i> 
                              </div>                             
                            </td>
                            <td>
-                              <div class="badge badge-{{ $item->stock > 0 ? 'success' : 'danger' }}">
-                                 <i class="fas fa-{{ $item->stock > 0 ? 'cube' : 'exclamation-circle' }}"></i> 
-                                 {{ $item->stock > 0 ? $item->stock : 'Stok Habis' }}
-                             </div>                             
+                              <div class="badge badge-success"><i class="fas fa-cube"></i> {{ $item->quantity }}</div>                        
                            </td>
                            <td>
-                              {{ $item->unit ? $item->unit->name . ($item->unit->symbol ? ' (' . $item->unit->symbol . ')' : '') : '--' }}
+                              {{ $item->inventoryItem->unit ? $item->inventoryItem->unit->name . ($item->inventoryItem->unit->symbol ? ' (' . $item->inventoryItem->unit->symbol . ')' : '') : '--' }}
                            </td>
                            <td>
                               @php
-                                 $condition = strtolower($item->condition->name);
+                                 $condition = strtolower($item->inventoryItem->condition->name);
                                  $badgeClass = '';
 
                                  switch ($condition) {
@@ -102,7 +98,7 @@
                                  }
                               @endphp
 
-                              <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->condition->name }}</div>
+                              <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->inventoryItem->condition->name }}</div>
                            </td>
                            <td>
                               <a href="{{ route('inventory_admin.inventoryitems.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
@@ -128,5 +124,5 @@
 </div>
 </div>
 
-@include('inventory_admin.inventory_items.modal')
+{{-- @include('inventory_admin.inventory_items.modal') --}}
 @endsection

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\InventoryAdmin;
 
+use App\Http\Controllers\Controller;
 use App\Models\DivisionItem;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,11 @@ class DivisionItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = DivisionItem::with('inventoryItem', 'division')->paginate(10);
+
+        return view('inventory_admin.division_items.index', compact('data'));
     }
 
     /**
