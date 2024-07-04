@@ -67,6 +67,23 @@ function showDeleteConfirmation(action, confirmationText, idForm) {
    });
 }
 
+function showApproveConfirmation(action, confirmationText, idForm) {
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: confirmationText,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#5c6ef4',
+        confirmButtonText: action,
+        cancelButtonText: 'Batal',
+        cancelButtonColor: '#f44336',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(idForm).submit();
+        }
+    });
+ }
+
 // Atur Gambar Preview
 function previewImage(event) {
     var file = event.target.files[0];

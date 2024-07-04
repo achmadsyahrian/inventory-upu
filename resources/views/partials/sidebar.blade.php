@@ -41,9 +41,13 @@
          <li><a class="nav-link" href="credits.html"><i class="fas fa-cube"></i> <span>Barang Divisi</span></a></li>
 
          @elseif (Auth::user()->role_id == 3)
-         <li class="menu-header">Inventaris</li>
-         <li class="{{ Request::is('*inventory-items*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('division_admin.inventoryitems.index') }}"><i class="fas fa-cubes"></i> <span>Stok Barang</span></a></li>
-         <li class="{{ Request::is('*item-request*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('division_admin.divisionrequests.index') }}"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
+            <li class="menu-header">Inventaris</li>
+            <li class="{{ Request::is('*inventory-items*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('division_admin.inventoryitems.index') }}"><i class="fas fa-cubes"></i> <span>Stok Barang</span></a></li>
+            <li class="{{ Request::is('*item-request*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('division_admin.divisionrequests.index') }}"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
+         @elseif (Auth::user()->role_id == 4)
+            <li class="menu-header">Inventaris</li>
+            {{-- <li class="{{ Request::is('*inventory-items*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('division_admin.inventoryitems.index') }}"><i class="fas fa-cubes"></i> <span>Stok Barang</span></a></li> --}}
+            <li class="{{ Request::is('*item-request*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('vice_rector2.divisionrequests.index') }}"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
          @endif
       </ul>
 

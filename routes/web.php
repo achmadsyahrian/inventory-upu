@@ -55,8 +55,11 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/inventory-items', \App\Http\Controllers\DivisionAdmin\InventoryItemController::class)->names('inventoryitems');
     }); 
 
-    Route::prefix('vice-rector2')->middleware(['role:4'])->group(function () {
-        
+    Route::prefix('vice-rector-2')->middleware(['role:4'])->name('vice_rector2.')->group(function () {
+        Route::resource('/item-request', \App\Http\Controllers\ViceRector\DivisionRequestController::class)->names('divisionrequests');
+        Route::patch('/item-request/{id}/approve', [\App\Http\Controllers\ViceRector\DivisionRequestController::class, 'approve'])->name('divisionrequests.approve');
+        Route::patch('/item-request/{id}/reject', [\App\Http\Controllers\ViceRector\DivisionRequestController::class, 'reject'])->name('divisionrequests.reject');
+        Route::get('/item-request/{division}/{date}/detail', [\App\Http\Controllers\ViceRector\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
     }); 
     
 });
