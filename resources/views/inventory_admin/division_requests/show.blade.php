@@ -63,6 +63,10 @@
                            <td>
                               @if ($item->status == 'pending')
                                  <div class="badge badge-warning"><i class="fas fa-clock"></i> Menunggu Persetujuan</div>
+                              @elseif ($item->status == 'approved')
+                                 <div class="badge badge-success"><i class="fas fa-check-circle"></i> Permintaan Disetujui</div>
+                              @elseif ($item->status == 'rejected')
+                                 <div class="badge badge-danger"><i class="fas fa-times-circle"></i> Permintaan Ditolak</div>
                               @endif
                            </td>
                         </tr>

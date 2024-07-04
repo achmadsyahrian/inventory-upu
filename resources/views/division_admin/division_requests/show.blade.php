@@ -63,14 +63,22 @@
                            <td>
                               @if ($item->status == 'pending')
                                  <div class="badge badge-warning"><i class="fas fa-clock"></i> Menunggu Persetujuan</div>
+                              @elseif ($item->status == 'approved')
+                                 <div class="badge badge-success"><i class="fas fa-check-circle"></i> Permintaan Disetujui</div>
+                              @elseif ($item->status == 'rejected')
+                                 <div class="badge badge-danger"><i class="fas fa-times-circle"></i> Permintaan Ditolak</div>
                               @endif
                            </td>
                            <td>
-                              <form class="d-inline" action="{{ route('division_admin.divisionrequests.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
-                                 @method('delete')
-                                 @csrf
-                                 <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus permintaan ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
-                              </form>
+                              @if ($item->status == 'pending')
+                                 <form class="d-inline" action="{{ route('division_admin.divisionrequests.destroy', $item) }}" method="post" id="delete-data-{{ $item->id }}">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="button" class="btn btn-danger btn-action" onclick="showDeleteConfirmation('Ya, Hapus', 'Apakah anda yakin ingin menghapus permintaan ini?', 'delete-data-{{ $item->id }}')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button>
+                                 </form>
+                              @else
+                              --
+                              @endif
                            </td>
                         </tr>
                         @empty

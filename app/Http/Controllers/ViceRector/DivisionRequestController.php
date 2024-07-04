@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ViceRector;
 
 use App\Http\Controllers\Controller;
 use App\Models\Division;
+use App\Models\DivisionItem;
 use App\Models\DivisionRequest;
 use App\Models\InventoryItem;
 use Carbon\Carbon;
@@ -116,7 +117,21 @@ class DivisionRequestController extends Controller
         $inventoryItem->stock -= $itemRequest->quantity;
         $inventoryItem->save();
 
-        $itemRequest->update(['status' => 'approved']);
+        // Tambahkan entry barang
+        $itemEntry = DivisionItem::updateOrCreate(
+            [
+                'division_id' => $itemRequest->division_id,
+                'inventory_item_id' => $itemRequest->inventory_item_id,
+            ],
+            [
+                'quantity' => DB::raw('quantity + ' . $itemRequest->quantity),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        // Update status permintaan
+        $itemRequest->status = 'approved';
+        $itemRequest->save();
 
         return redirect()->back()->with('success', 'Permintaan barang berhasil disetujui');
     }
