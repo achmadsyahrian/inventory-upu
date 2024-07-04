@@ -41,6 +41,7 @@
                            <th>No</th>
                            <th>Nama</th>
                            <th>Tipe</th>
+                           <th>Stok</th>
                            <th>Satuan</th>
                         </tr>
                         @forelse ($data as $item)
@@ -60,6 +61,12 @@
                               <div class="badge badge-{{ $item->type_id == 1 ? 'primary' : 'info' }}" data-toggle="tooltip" title="{{ $item->type_id == 1 ? 'Habis Pakai' : 'Non-Habis Pakai' }}">
                                  <i class="fas fa-{{ $item->type_id == 1 ? 'recycle' : 'box-open' }}"></i> {{ $item->type->name }}
                               </div>                             
+                           </td>
+                           <td>
+                              <div class="badge badge-{{ $item->stock > 0 ? 'success' : 'danger' }}">
+                                 <i class="fas fa-{{ $item->stock > 0 ? 'cube' : 'exclamation-circle' }}"></i> 
+                                 {{ $item->stock > 0 ? $item->stock : 'Stok Habis' }}
+                             </div>                             
                            </td>
                            <td>
                               {{ $item->unit ? $item->unit->name . ($item->unit->symbol ? ' (' . $item->unit->symbol . ')' : '') : '--' }}

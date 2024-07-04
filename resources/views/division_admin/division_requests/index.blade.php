@@ -18,7 +18,7 @@
    <div class="section-body">
       <h2 class="section-title">Permintaan Barang</h2>
       <p class="section-lead">
-         Anda dapat mengelola semua informasi divisi dengan mudah, termasuk melakukan perubahan dan penghapusan data.
+         Tampilan data lengkap permintaan barang untuk divisi Anda.
       </p>
    
       <div class="row mt-4">
@@ -43,7 +43,7 @@
                         <tr>
                            <th>No</th>
                            <th>Tanggal Permintaan</th>
-                           <th>Jumlah</th>
+                           <th>Jumlah Permintaan</th>
                            <th>Aksi</th>
                         </tr>
                         @forelse ($data as $item)
@@ -76,5 +76,5 @@
    </div>
 </div>
 
-{{-- @include('division_admin.divisionrequests.modal') --}}
+@include('division_admin.division_requests.modal')
 @endsection

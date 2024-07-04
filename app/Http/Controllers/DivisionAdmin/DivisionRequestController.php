@@ -17,13 +17,26 @@ class DivisionRequestController extends Controller
      */
     public function index(Request $request)
     {
-        $data = DivisionRequest::select(DB::raw('DATE(created_at) as date, COUNT(*) as count'))
+        // Mendapatkan division_id dari pengguna yang sedang login
+        $divisionId = Auth::user()->division_id;
+
+        // Mengambil data dengan grouping berdasarkan tanggal created_at
+        $query = DivisionRequest::select(DB::raw('DATE(created_at) as date, COUNT(*) as count'))
+            ->where('division_id', $divisionId)
             ->groupBy(DB::raw('DATE(created_at)'))
-            ->orderBy('date', 'desc')
-            ->paginate(10);
+            ->orderBy('date', 'desc');
+
+        // Jika ada pencarian berdasarkan tanggal
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        // Pagination dengan 10 data per halaman
+        $data = $query->paginate(10);
 
         return view('division_admin.division_requests.index', compact('data'));
     }
+
 
 
 
@@ -33,8 +46,19 @@ class DivisionRequestController extends Controller
     public function create()
     {
         $inventoryItems = InventoryItem::all();
-        return view('division_admin.division_requests.create', compact('inventoryItems'));
+
+        // Mendapatkan division_id dari user yang sedang login
+        $divisionId = Auth::user()->division_id;
+
+        // Mengambil data DivisionRequest hanya untuk division_id yang sedang login dan hari ini
+        $data = DivisionRequest::with(['inventoryItem', 'division'])
+                    ->where('division_id', $divisionId)
+                    ->whereDate('created_at', Carbon::today())
+                    ->get();
+
+        return view('division_admin.division_requests.create', compact('inventoryItems', 'data'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -57,16 +81,23 @@ class DivisionRequestController extends Controller
         // Simpan data ke database
         DivisionRequest::create($validatedData);
 
-        return redirect()->route('division_admin.divisionrequests.index')
+        return redirect()->route('division_admin.divisionrequests.create')
             ->with('success', 'Permintaan barang berhasil dibuat');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(DivisionRequest $divisionRequest)
+    public function show($date)
     {
-        //
+        $divisionId = Auth::user()->division_id;
+
+        $data = DivisionRequest::with(['inventoryItem', 'division'])
+                    ->where('division_id', $divisionId)
+                    ->whereDate('created_at', $date)
+                    ->paginate(10);
+
+        return view('division_admin.division_requests.show', compact('data', 'date'));
     }
 
     /**
@@ -88,8 +119,12 @@ class DivisionRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DivisionRequest $divisionRequest)
+    public function destroy(DivisionRequest $itemRequest)
     {
-        //
+        $itemRequest->delete();
+
+        return redirect()->route('division_admin.divisionrequests.create')
+            ->with('success', 'Permintaan barang berhasil dihapus');
     }
+
 }
