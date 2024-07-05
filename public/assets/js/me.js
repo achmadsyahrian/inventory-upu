@@ -15,8 +15,28 @@ document.getElementById('price-input').addEventListener('input', function (e) {
     e.target.value = rupiah;
 });
 
+
 // Ambil Inventory Item
 $(document).ready(function() {
+    $('#division-item-select').on('change', function() {
+        var divisionId = $(this).val();
+        if (divisionId) {
+            $.ajax({
+                url: '/inventory-admin/get-division-items/' + divisionId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var $inventorySelect = $('#inventory-item-select2');
+                    $inventorySelect.empty();
+                    $inventorySelect.append('<option selected disabled>Pilih Barang</option>');
+                    $.each(data, function(key, item) {
+                        $inventorySelect.append('<option value="'+ item.inventory_item_id +'">'+ item.inventory_item.name +'</option>');
+                    });
+                }
+            });
+        }
+    });
+
     $('#inventory-item-select').on('change', function() {
         var itemId = $(this).val();
         if (itemId) {
@@ -44,6 +64,32 @@ $(document).ready(function() {
                 //     } else {
                 //         $('#save-button').prop('disabled', false);
                 //     }
+                }
+            });
+        }
+    });
+    
+    $('#inventory-item-select2').on('change', function() {
+        var itemId = $(this).val();
+        if (itemId) {
+            var divisionId = $('#division-item-select').val();
+            $.ajax({
+                url: '/inventory-admin/get-division-inventory-items/' + itemId + '/' + divisionId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#item-brand').val(data.brand);
+                    $('#item-type').val(data.type);
+                    $('#item-unit').val(data.unit);
+                    $('#item-condition').val(data.condition);
+                    $('#item-quantity').val(data.quantity);
+
+                    if (data.photo) {
+                      var photoUrl = '/storage/photos/inventory_item/' + data.photo;
+                       $('#preview-photo').attr('src', photoUrl);
+                   } else {
+                      $('#preview-photo').attr('src', "/assets/img/me/empty-photo2.jpg");
+                   }
                 }
             });
         }

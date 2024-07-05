@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('loan_date');
             $table->date('due_date');
             $table->date('return_date')->nullable();
+            $table->text('reason')->nullable();
             $table->enum('status', ['borrowed', 'returned']); // status barang
             $table->timestamps();
         
