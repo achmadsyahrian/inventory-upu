@@ -21,7 +21,7 @@
                </div>
                <div class="form-group">
                   <label>Tanggal Masuk </label>
-                  <input type="date" class="form-control datepicker" name="entry_date" value="{{ request('entry_date') }}">
+                  <input type="date" class="form-control" name="entry_date" value="{{ request('entry_date') }}">
                </div>
                <div class="form-group">
                   <label>Supplier</label>

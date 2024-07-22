@@ -10,9 +10,10 @@ class AuthController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::whereNotIn('id', [1])->get();
         return view('auth.login', compact('roles'));
     }
+
 
     public function login(Request $request)
     {

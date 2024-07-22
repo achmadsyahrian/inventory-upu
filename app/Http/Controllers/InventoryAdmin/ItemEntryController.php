@@ -106,6 +106,7 @@ class ItemEntryController extends Controller
         if ($item) {
             return response()->json([
                 'brand' => $item->brand,
+                'warranty' => $item->warranty,
                 'type' => $item->type->name,
                 'unit' => $item->unit->name,
                 'condition' => $item->condition->name,

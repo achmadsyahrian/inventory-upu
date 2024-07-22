@@ -12,14 +12,14 @@
             <div class="modal-body">
                <div class="form-group">
                   <label>Tanggal Permintaan</label>
-                  <input type="date" class="form-control datepicker" name="date" value="{{ request('date') }}">
+                  <input type="date" class="form-control" name="date" value="{{ request('date') }}">
                </div>
                <div class="form-group">
                   <label>Lokasi</label>
-                  <select class="form-control selectric" name="building_id">
+                  <select class="form-control selectric" name="division_id">
                      <option selected disabled>Pilih Lokasi</option>
                      @foreach ($divisions as $item)
-                        <option value="{{ $item->id }}" {{ request('building_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                        <option value="{{ $item->id }}" {{ request('division_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
                   </select>
                </div>

@@ -14,18 +14,19 @@ return new class extends Migration
         Schema::create('inventory_items', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('type_id')->nullable();
             $table->string('brand')->nullable();
+            $table->string('warranty')->nullable();
             $table->integer('stock');
-            $table->unsignedBigInteger('condition_id');
-            $table->unsignedBigInteger('unit_id');
+            $table->unsignedBigInteger('condition_id')->nullable();
+            $table->unsignedBigInteger('unit_id')->nullable();
             $table->string('photo')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('item_types')->onDelete('cascade');
-            $table->foreign('condition_id')->references('id')->on('item_conditions')->onDelete('cascade');
-            $table->foreign('unit_id')->references('id')->on('item_units')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('item_types')->onDelete('set null');
+            $table->foreign('condition_id')->references('id')->on('item_conditions')->onDelete('set null');
+            $table->foreign('unit_id')->references('id')->on('item_units')->onDelete('set null');
         });
     }
 

@@ -26,5 +26,11 @@ class DivisionRequest extends Model
     {
         return $this->belongsTo(Division::class, 'division_id');
     }
+
+    // For Notification
+    public static function countPendingRequests()
+    {
+        return self::where('status', 'pending')->count();
+    }
     
 }

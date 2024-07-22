@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ class DivisionLoan extends Model
         'inventory_item_id',
         'quantity',
         'loan_date',
+        'due_date',
         'return_date',
         'reason',
         'status',
@@ -34,5 +36,15 @@ class DivisionLoan extends Model
     {
         return $this->belongsTo(Division::class, 'to_division_id');
     }
+
+    // For Notifications
+    public static function countOverdueBorrowedLoans()
+    {
+        return self::where('status', 'borrowed')
+                    ->where('due_date', '<', Carbon::now())
+                    ->count();
+    }
+
+
     
 }

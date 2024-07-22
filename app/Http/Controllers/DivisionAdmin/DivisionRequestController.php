@@ -31,6 +31,11 @@ class DivisionRequestController extends Controller
             $query->whereDate('created_at', $request->date);
         }
 
+        // Jika ada pencarian berdasarkan divisi
+        if ($request->filled('division_id')) {
+            $query->where('division_id', $request->division_id);
+        }
+
         // Pagination dengan 10 data per halaman
         $data = $query->paginate(10);
 

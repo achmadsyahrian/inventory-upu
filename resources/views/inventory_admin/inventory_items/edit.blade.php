@@ -104,7 +104,13 @@
                                  <input type="number" min="0" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock', $inventoryItem->stock) }}" placeholder="Masukkan Jumlah" autocomplete="off">
                                  <x-invalid-feedback field='stock'></x-invalid-feedback>
                               </div>
-                              <div class="form-group col-md-10 col-12">
+                              <div class="form-group col-md-4 col-12">
+                                 <label>Garansi</label>
+                                 <input type="text" class="form-control @error('warranty') is-invalid @enderror" name="warranty" value="{{ old('warranty', $inventoryItem->warranty) }}" placeholder="Masukkan Garansi" autocomplete="off">
+                                 <x-invalid-feedback field='warranty'></x-invalid-feedback>
+                                 <div class="form-text text-muted">Contoh : 6 Bulan</div>
+                              </div>
+                              <div class="form-group col-md-6 col-12">
                                  <label>Keterangan</label>
                                  <input type="text" min="0" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description', $inventoryItem->description) }}" placeholder="Masukkan Keterangan" autocomplete="off">
                                  <x-invalid-feedback field='description'></x-invalid-feedback>

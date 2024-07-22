@@ -42,6 +42,7 @@
                      <table class="table table-striped">
                         <tr>
                            <th>No</th>
+                           <th>Tanggal Masuk</th>
                            <th>Nama Barang</th>
                            <th>Tipe</th>
                            <th>Jumlah Masuk</th>
@@ -52,6 +53,9 @@
                         @forelse ($data as $item)
                         <tr>
                            <td>{{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}</td>
+                           <td>
+                              {{ \Carbon\Carbon::parse($item->entry_date)->isoFormat('DD MMMM YYYY') }}
+                           </td>
                            <td>
                               <div class="d-flex align-items-center">
                                  <div>

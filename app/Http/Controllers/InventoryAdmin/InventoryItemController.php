@@ -42,11 +42,13 @@ class InventoryItemController extends Controller
      */
     public function store(Request $request)
     {
+        
         // Validasi input
         $validatedData = $request->validate([
             'name' =>'required|unique:inventory_items',
             'brand' =>'nullable',
             'description' => 'nullable',
+            'warranty' => 'nullable',
             'stock' => 'required|integer|min:0',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'condition_id' =>'required|exists:item_conditions,id',
@@ -97,6 +99,7 @@ class InventoryItemController extends Controller
             'name' =>'required|unique:inventory_items,name,'. $inventoryItem->id,
             'brand' =>'nullable',
             'description' => 'nullable',
+            'warranty' => 'nullable',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'condition_id' =>'required|exists:item_conditions,id',
             'stock' => 'required|integer|min:0',

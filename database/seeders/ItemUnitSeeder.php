@@ -28,6 +28,7 @@ class ItemUnitSeeder extends Seeder
             ['symbol' => NULL, 'name' => 'Blok'],
             ['symbol' => NULL, 'name' => 'Lembar'],
             ['symbol' => NULL, 'name' => 'Rim'],
+            ['symbol' => NULL, 'name' => 'Unit'],
         ];
         
         ItemUnit::insert($units);        

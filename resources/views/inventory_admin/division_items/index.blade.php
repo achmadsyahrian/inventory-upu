@@ -6,6 +6,9 @@
 
    <div class="section-header">
       <h1>Data Barang</h1>
+      <div class="section-header-button">
+         <a href="{{ route('inventory_admin.divisionitems.create') }}" class="btn btn-primary">Tambah</a>
+      </div>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
          <div class="breadcrumb-item">Barang Divisi</div>
@@ -29,7 +32,7 @@
                   <div class="float-right">
                      <div class="input-group">
                         <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
-                        <form action="{{ route('inventory_admin.inventoryitems.index') }}" method="GET" style="display:inline;">
+                        <form action="{{ route('inventory_admin.divisionitems.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>
                         </form>
                      </div>
@@ -101,7 +104,8 @@
                               <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->inventoryItem->condition->name }}</div>
                            </td>
                            <td>
-                              <a href="{{ route('inventory_admin.inventoryitems.edit', [$item->inventoryItem]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Lihat Barang"><i class="fas fa-eye"></i></a>
+                              {{-- <a href="{{ route('inventory_admin.inventoryitems.edit', [$item->inventoryItem]) }}" class="btn btn-info btn-action mr-1" data-toggle="tooltip" title="Lihat Barang"><i class="fas fa-eye"></i></a> --}}
+                              <a href="{{ route('inventory_admin.divisionitems.edit', [$item]) }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                            </td>
                         </tr>
                         @empty
@@ -119,5 +123,5 @@
 </div>
 </div>
 
-{{-- @include('inventory_admin.inventory_items.modal') --}}
+@include('inventory_admin.division_items.modal')
 @endsection

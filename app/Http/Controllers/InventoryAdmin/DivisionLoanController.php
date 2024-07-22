@@ -46,13 +46,13 @@ class DivisionLoanController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'from_division_id' =>'required',
-            'to_division_id' =>'required',
-            'inventory_item_id' =>'required',
-            'quantity' =>'required|numeric',
-            'loan_date' =>'required|date',
-            'due_date' =>'required|date',
-            'reason' =>'nullable',
+            'from_division_id' => 'required',
+            'to_division_id' => 'required',
+            'inventory_item_id' => 'required',
+            'quantity' => 'required|numeric',
+            'loan_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:loan_date',
+            'reason' => 'nullable',
         ]);
 
         // Cek duplikasi
@@ -62,11 +62,45 @@ class DivisionLoanController extends Controller
         if ($fromDivisionId == $toDivisionId) {
             return redirect()->back()->with('error', 'Divisi yang meminjam dan dipinjam tidak boleh sama');
         }
-        
+
+        // Ambil data dari DivisionItem dari divisi yg dipinjam
+        $divisionItemFrom = DivisionItem::where('division_id', $fromDivisionId)
+                                        ->where('inventory_item_id', $validatedData['inventory_item_id'])
+                                        ->first();
+
+        // Cek apakah quantity yang diminta lebih besar dari quantity yang tersedia
+        if ($divisionItemFrom && $validatedData['quantity'] > $divisionItemFrom->quantity) {
+            return redirect()->back()->with('error', 'Jumlah yang diminta lebih besar dari jumlah yang tersedia');
+        }
+
+        // Ambil data dari DivisionItem dari divisi yg meminjam
+        $divisionItemTo = DivisionItem::where('division_id', $toDivisionId)
+                                    ->where('inventory_item_id', $validatedData['inventory_item_id'])
+                                    ->first();
+
+        // Jika belum ada record di divisi tujuan, buat record baru
+        if (!$divisionItemTo) {
+            $divisionItemTo = DivisionItem::create([
+                'division_id' => $toDivisionId,
+                'inventory_item_id' => $validatedData['inventory_item_id'],
+                'quantity' => 0,
+            ]);
+        }
+
+        // Update quantity dari divisi yang meminjam dan yang dipinjam
+        $divisionItemFrom->quantity -= $validatedData['quantity'];
+        $divisionItemFrom->save();
+
+        $divisionItemTo->quantity += $validatedData['quantity'];
+        $divisionItemTo->save();
+
+        // Jika lolos cek, buat record baru di DivisionLoan
         DivisionLoan::create($validatedData);
 
-        return redirect()->route('inventory_admin.division_loans.index')->with('success', 'Peminjaman barang berhasil ditambahkan');
+        return redirect()->route('inventory_admin.divisionloans.index')->with('success', 'Peminjaman barang berhasil ditambahkan');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -95,9 +129,25 @@ class DivisionLoanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DivisionLoan $divisionLoan)
+    public function destroy(DivisionLoan $itemLoan)
     {
-        //
+        // Kembalikan quantity
+        $itemLoan = DivisionLoan::find($itemLoan->id);
+        $divisionItemFrom = DivisionItem::where('division_id', $itemLoan->from_division_id)
+                                        ->where('inventory_item_id', $itemLoan->inventory_item_id)
+                                        ->first();
+        $divisionItemTo = DivisionItem::where('division_id', $itemLoan->to_division_id)
+                                    ->where('inventory_item_id', $itemLoan->inventory_item_id)
+                                    ->first();
+
+        $divisionItemFrom->quantity += $itemLoan->quantity;
+        $divisionItemFrom->save();
+
+        $divisionItemTo->quantity -= $itemLoan->quantity;
+        $divisionItemTo->save();
+        
+        $itemLoan->delete();
+        return redirect()->route('inventory_admin.divisionloans.index')->with('success', 'Peminjaman barang berhasil dihapus');
     }
 
     private function searchData(Request $request)
@@ -141,6 +191,7 @@ class DivisionLoanController extends Controller
         if ($item) {
             return response()->json([
                 'brand' => $item->brand,
+                'warranty' => $item->warranty,
                 'type' => $item->type->name,
                 'unit' => $item->unit->name,
                 'condition' => $item->condition->name,
@@ -152,5 +203,30 @@ class DivisionLoanController extends Controller
 
         return response()->json(['error' => 'Item not found'], 404);
     }
+
+    public function return(DivisionLoan $item)
+    {
+        $item->status = 'returned';
+        $item->return_date = now();
+        $item->save();
+
+        // Update quantity di DivisionItem (kembalikan barang)
+        $divisionItemFrom = DivisionItem::where('division_id', $item->from_division_id)
+                                        ->where('inventory_item_id', $item->inventory_item_id)
+                                        ->first();
+        $divisionItemTo = DivisionItem::where('division_id', $item->to_division_id)
+                                    ->where('inventory_item_id', $item->inventory_item_id)
+                                    ->first();
+
+        $divisionItemFrom->quantity += $item->quantity;
+        $divisionItemFrom->save();
+
+        $divisionItemTo->quantity -= $item->quantity;
+        $divisionItemTo->save();
+
+        // Redirect ke halaman atau route yang sesuai
+        return redirect()->route('inventory_admin.divisionloans.index')->with('success', 'Barang berhasil dikembalikan');
+    }
+
     
 }

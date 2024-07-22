@@ -12,6 +12,7 @@ class InventoryItem extends Model
     protected $fillable = [
         'name',
         'brand',
+        'warranty',
         'description',
         'type_id',
         'stock',

@@ -46,6 +46,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(data) {
                     $('#item-brand').val(data.brand);
+                    $('#item-warranty').val(data.warranty);
                     $('#item-type').val(data.type);
                     $('#item-unit').val(data.unit);
                     $('#item-condition').val(data.condition);
@@ -79,6 +80,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(data) {
                     $('#item-brand').val(data.brand);
+                    $('#item-warranty').val(data.warranty);
                     $('#item-type').val(data.type);
                     $('#item-unit').val(data.unit);
                     $('#item-condition').val(data.condition);

@@ -75,7 +75,11 @@
                                   <label>Stok</label>
                                   <input type="number" min="0" id="item-stock" class="form-control" autocomplete="off" disabled placeholder="--">
                               </div>
-                              <div class="form-group col-md-10 col-12">
+                              <div class="form-group col-md-4 col-12">
+                                 <label>Garansi</label>
+                                 <input type="text" id="item-warranty" class="form-control" autocomplete="off" disabled placeholder="--">
+                             </div>
+                              <div class="form-group col-md-6 col-12">
                                   <label>Keterangan</label>
                                   <input type="text" id="item-description" class="form-control" autocomplete="off" disabled placeholder="--">
                               </div>
@@ -89,7 +93,7 @@
                            <div class="row">
                               <div class="form-group col-md-3 col-12">
                                  <label>Tanggal Masuk <x-label-required></x-label-required></label>
-                                 <input type="date" class="form-control datepicker @error('entry_date') is-invalid @enderror" name="entry_date" value="{{ old('entry_date') }}">
+                                 <input type="date" class="form-control @error('entry_date') is-invalid @enderror" name="entry_date" value="{{ old('entry_date') }}">
                                  <x-invalid-feedback field='entry_date'></x-invalid-feedback>
                               </div>
                               <div class="form-group col-md-4 col-12">

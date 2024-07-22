@@ -73,7 +73,11 @@
                                   <label>Stok Tersedia</label>
                                   <input type="number" min="0" id="item-stock" class="form-control" autocomplete="off" disabled placeholder="--">
                               </div>
-                              <div class="form-group col-md-10 col-12 d-none">
+                              <div class="form-group col-md-4 col-12 d-none">
+                                 <label>Garansi</label>
+                                 <input type="text" id="item-warranty" class="form-control" autocomplete="off" disabled placeholder="--">
+                             </div>
+                              <div class="form-group col-md-6 col-12 d-none">
                                   <label>Keterangan</label>
                                   <input type="text" id="item-description" class="form-control" autocomplete="off" disabled placeholder="--">
                               </div>

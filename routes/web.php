@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('inventory-admin')->middleware(['role:2'])->name('inventory_admin.')->group(function () {
         Route::resource('/users', \App\Http\Controllers\InventoryAdmin\UserController::class)->names('users');
         Route::resource('/divisions', \App\Http\Controllers\InventoryAdmin\DivisionController::class)->names('divisions');
+        Route::resource('/item-units', \App\Http\Controllers\InventoryAdmin\ItemUnitController::class)->names('itemunits');
         
         Route::resource('/inventory-items', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
         Route::resource('/item-entries', \App\Http\Controllers\InventoryAdmin\ItemEntryController::class)->names('itementries');
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/item-request/{division}/{date}/detail', [\App\Http\Controllers\InventoryAdmin\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
 
         Route::resource('/item-loans', \App\Http\Controllers\InventoryAdmin\DivisionLoanController::class)->names('divisionloans');
+        Route::post('/item-loans/{item}/return', [\App\Http\Controllers\InventoryAdmin\DivisionLoanController::class, 'return'])->name('divisionloans.return');
         Route::get('/get-division-items/{divisionId}', [\App\Http\Controllers\InventoryAdmin\DivisionLoanController::class, 'getDivisionItems'])->name('divisionloans.getItems');
         Route::get('/get-division-inventory-items/{itemId}/{divisionId}', [\App\Http\Controllers\InventoryAdmin\DivisionLoanController::class, 'getInventoryItem'])->name('divisionloans.getItems');
 

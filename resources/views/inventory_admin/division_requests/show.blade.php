@@ -8,7 +8,7 @@
       <div class="section-header-back">
          <a href="{{ route('inventory_admin.divisionrequests.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
       </div>
-      <h1>Data Permintaan</h1>
+      <h1>Data Permintaan {{ $divisionName }}</h1>
       <div class="section-header-breadcrumb">
          <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
          <div class="breadcrumb-item active"><a href="{{ route('inventory_admin.divisionrequests.index') }}">Permintaan Barang</a></div>

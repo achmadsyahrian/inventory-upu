@@ -42,6 +42,7 @@ return [
     'numeric' => 'Kolom :attribute hanya boleh berisi angka.',
     'integer' => 'Kolom :attribute hanya boleh berisi angka.',
     'uploaded' => 'Ukuran file yang diunggah pada kolom :attribute terlalu besar. Maksimum 2MB.',
+    'after_or_equal' => 'Kolom :attribute harus berupa tanggal setelah atau sama dengan :date.',
     'custom' => [
         'photo' => [
             'mimes' => 'Kolom :attribute harus berupa file dengan tipe: jpeg, png, jpg.',

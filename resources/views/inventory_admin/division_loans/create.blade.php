@@ -150,6 +150,10 @@
                                  <label>Jumlah</label>
                                  <input type="number" min="0" id="item-quantity" class="form-control" autocomplete="off" disabled placeholder="--">
                               </div>
+                              <div class="form-group col-md-12 col-12">
+                                 <label>Garansi</label>
+                                 <input type="text" id="item-warranty" class="form-control" autocomplete="off" disabled placeholder="--">
+                              </div>
                            </div>
                         </div>
                      </div>
