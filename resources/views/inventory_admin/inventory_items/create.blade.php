@@ -32,7 +32,7 @@
                   </div>
                   <div class="card-body">
                      <div class="row">
-                        <div class="form-group col-md-2 col-12 mr-3">
+                        <div class="form-group col-md-3 col-12 mr-3">
                            <label class="">Foto</label>
                            <div class="image-preview-container">
                                <img id="preview-photo" class="img-fluid" style="width:100%; height: 200px; object-fit:cover;" src="{{ asset('assets/img/me/empty-photo.png') }}" alt="Preview Image">
@@ -46,8 +46,13 @@
                            @enderror
                            <div class="form-text text-muted">Batas maksimal ukuran gambar adalah 2MB</div>
                        </div>
-                        <div class="col-md-9 col-12">
+                        <div class="col-md-8 col-12">
                            <div class="row">
+                              <div class="form-group col-md-6 col-12">
+                                 <label>Kode </label>
+                                 <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}" placeholder="Masukkan Kode" autocomplete="off">
+                                 <x-invalid-feedback field='code'></x-invalid-feedback>
+                              </div>
                               <div class="form-group col-md-6 col-12">
                                  <label>Nama <x-label-required></x-label-required></label>
                                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Masukkan Nama" autocomplete="off">
@@ -58,7 +63,27 @@
                                  <input type="text" class="form-control @error('brand') is-invalid @enderror" name="brand" value="{{ old('brand') }}" placeholder="Masukkan Merek" autocomplete="off">
                                  <x-invalid-feedback field='brand'></x-invalid-feedback>
                               </div>
-                              <div class="form-group col-md-3 col-12">
+                              <div class="form-group col-md-6 col-12">
+                                 <label>Spesifikasi</label>
+                                 <input type="text" class="form-control @error('spesification') is-invalid @enderror" name="spesification" value="{{ old('spesification') }}" placeholder="Masukkan Spesifikasi" autocomplete="off">
+                                 <x-invalid-feedback field='spesification'></x-invalid-feedback>
+                              </div>
+                              <div class="form-group col-md-6 col-12">
+                                 <label>Kapasitas PK</label>
+                                 <select class="form-control selectric" name="capacity_pk">
+                                     <option selected disabled>Pilih Kapasitas</option>
+                                     @foreach($capacities as $capacity)
+                                         <option value="{{ $capacity }}" {{ old('capacity_pk') == $capacity ? 'selected' : '' }}>
+                                             {{ $capacity }} PK
+                                         </option>
+                                     @endforeach
+                                 </select>
+                                 @error('capacity_pk')
+                                 <div class="form-text text-danger">{{ $message }}</div>
+                                 @enderror
+                                 <div class="form-text text-muted">Pilih hanya jika barang AC</div>
+                              </div>                             
+                              <div class="form-group col-md-6 col-12">
                                  <label>Tipe <x-label-required></x-label-required></label>
                                  <select class="form-control selectric" name="type_id">
                                     <option selected disabled>Pilih Tipe</option>
@@ -70,19 +95,13 @@
                                  <div class="form-text text-danger">{{ $message }}</div>
                                  @enderror
                               </div>
-                              <div class="form-group col-md-5 col-12">
-                                 <label>Satuan <x-label-required></x-label-required></label>
-                                 <select class="form-control select2" name="unit_id">
-                                    <option selected disabled>Pilih Satuan</option>
-                                    @foreach ($units as $item)
-                                    <option value="{{ $item->id }}" {{ old('unit_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}{{ $item->symbol ? ' (' . $item->symbol . ')' : '' }}</option>
-                                    @endforeach
-                                 </select>
-                                 @error('unit_id')
-                                 <div class="form-text text-danger">{{ $message }}</div>
-                                 @enderror
+                              <div class="form-group col-md-6 col-12">
+                                 <label>Garansi</label>
+                                 <input type="text" class="form-control @error('warranty') is-invalid @enderror" name="warranty" value="{{ old('warranty') }}" placeholder="Masukkan Garansi" autocomplete="off">
+                                 <x-invalid-feedback field='warranty'></x-invalid-feedback>
+                                 <div class="form-text text-muted">Contoh : 3 Tahun</div>
                               </div>
-                              <div class="form-group col-md-4 col-12">
+                              <div class="form-group col-md-6 col-12">
                                  <label>Kondisi <x-label-required></x-label-required></label>
                                  <select class="form-control selectric" name="condition_id">
                                     <option selected disabled>Pilih Kondisi</option>
@@ -94,18 +113,24 @@
                                  <div class="form-text text-danger">{{ $message }}</div>
                                  @enderror
                               </div>
-                              <div class="form-group col-md-2 col-12">
+                              <div class="form-group col-md-6 col-12">
                                  <label>Stok <x-label-required></x-label-required></label>
                                  <input type="number" min="0" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}" placeholder="Masukkan Jumlah" autocomplete="off">
                                  <x-invalid-feedback field='stock'></x-invalid-feedback>
                               </div>
-                              <div class="form-group col-md-4 col-12">
-                                 <label>Garansi</label>
-                                 <input type="text" class="form-control @error('warranty') is-invalid @enderror" name="warranty" value="{{ old('warranty') }}" placeholder="Masukkan Garansi" autocomplete="off">
-                                 <x-invalid-feedback field='warranty'></x-invalid-feedback>
-                                 <div class="form-text text-muted">Contoh : 6 Bulan</div>
-                              </div>
                               <div class="form-group col-md-6 col-12">
+                                 <label>Satuan <x-label-required></x-label-required></label>
+                                 <select class="form-control select2" name="unit_id">
+                                    <option selected disabled>Pilih Satuan</option>
+                                    @foreach ($units as $item)
+                                    <option value="{{ $item->id }}" {{ old('unit_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}{{ $item->symbol ? ' (' . $item->symbol . ')' : '' }}</option>
+                                    @endforeach
+                                 </select>
+                                 @error('unit_id')
+                                 <div class="form-text text-danger">{{ $message }}</div>
+                                 @enderror
+                              </div>
+                              <div class="form-group col-md-12 col-12">
                                  <label>Keterangan</label>
                                  <input type="text" min="0" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" placeholder="Masukkan Keterangan" autocomplete="off">
                                  <x-invalid-feedback field='description'></x-invalid-feedback>

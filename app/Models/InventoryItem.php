@@ -10,8 +10,11 @@ class InventoryItem extends Model
     use HasFactory;
 
     protected $fillable = [
+        'code',
         'name',
+        'capacity_pk',
         'brand',
+        'spesification',
         'warranty',
         'description',
         'type_id',

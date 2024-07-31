@@ -102,10 +102,11 @@ class ItemEntryController extends Controller
     public function getInventoryItem($id)
     {
         $item = InventoryItem::with('condition', 'type', 'unit')->find($id);
-
+        
         if ($item) {
             return response()->json([
                 'brand' => $item->brand,
+                'code' => $item->code,
                 'warranty' => $item->warranty,
                 'type' => $item->type->name,
                 'unit' => $item->unit->name,

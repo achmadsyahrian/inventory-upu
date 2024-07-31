@@ -46,8 +46,8 @@
           @include('partials.sidebar')
           <div class="main-content">
               @yield('content')
-              @include('partials.footer')
           </div>
+          @include('partials.footer')
       </div>
     @endauth
     @guest

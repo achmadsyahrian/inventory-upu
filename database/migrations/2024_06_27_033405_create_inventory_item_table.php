@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventory_items', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->nullable()->unique();
             $table->string('name')->unique();
             $table->unsignedBigInteger('type_id')->nullable();
             $table->string('brand')->nullable();
+            $table->string('spesification')->nullable();
+            $table->enum('capacity_pk', ['0.5', '0.75', '1', '1.5', '2', '2.5', '3'])->nullable(); //jumlah PK khusus AC
             $table->string('warranty')->nullable();
             $table->integer('stock');
             $table->unsignedBigInteger('condition_id')->nullable();

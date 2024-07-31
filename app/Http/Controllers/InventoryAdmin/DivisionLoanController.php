@@ -191,6 +191,7 @@ class DivisionLoanController extends Controller
         if ($item) {
             return response()->json([
                 'brand' => $item->brand,
+                'code' => $item->code,
                 'warranty' => $item->warranty,
                 'type' => $item->type->name,
                 'unit' => $item->unit->name,

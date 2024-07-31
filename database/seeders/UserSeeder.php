@@ -25,5 +25,12 @@ class UserSeeder extends Seeder
             'role_id' => '2',
             'password' => bcrypt('potensiutama')
         ]);
+        User::create([
+            'name' => 'Daifiria M.Kom',
+            'username' => 'wakilrektor2',
+            'role_id' => '4',
+            'division_id' => '1',
+            'password' => bcrypt('potensiutama')
+        ]);
     }
 }

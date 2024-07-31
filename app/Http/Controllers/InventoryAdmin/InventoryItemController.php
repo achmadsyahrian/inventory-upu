@@ -33,8 +33,9 @@ class InventoryItemController extends Controller
         $conditions = ItemCondition::select('id', 'name')->get();
         $types = ItemType::select('id', 'name')->get();
         $units = ItemUnit::select('id', 'name', 'symbol')->get();
+        $capacities = ['0.5', '0.75', '1', '1.5', '2', '2.5', '3'];
 
-        return view('inventory_admin.inventory_items.create', compact('conditions', 'types', 'units'));
+        return view('inventory_admin.inventory_items.create', compact('conditions', 'types', 'units', 'capacities'));
     }
 
     /**
@@ -45,8 +46,10 @@ class InventoryItemController extends Controller
         
         // Validasi input
         $validatedData = $request->validate([
+            'code' =>'nullable|unique:inventory_items',
             'name' =>'required|unique:inventory_items',
             'brand' =>'nullable',
+            'spesification' =>'nullable',
             'description' => 'nullable',
             'warranty' => 'nullable',
             'stock' => 'required|integer|min:0',
@@ -54,6 +57,7 @@ class InventoryItemController extends Controller
             'condition_id' =>'required|exists:item_conditions,id',
             'type_id' =>'required|exists:item_types,id',
             'unit_id' =>'required|exists:item_units,id',
+            'capacity_pk' => 'nullable|in:0.5,0.75,1,1.5,2,2.5,3',
         ]);
 
         // Proses upload foto jika ada
@@ -86,7 +90,9 @@ class InventoryItemController extends Controller
         $conditions = ItemCondition::select('id', 'name')->get();
         $types = ItemType::select('id', 'name')->get();
         $units = ItemUnit::select('id', 'name', 'symbol')->get();
-        return view('inventory_admin.inventory_items.edit', compact('conditions', 'types', 'units', 'inventoryItem'));
+        $capacities = ['0.5', '0.75', '1', '1.5', '2', '2.5', '3'];
+
+        return view('inventory_admin.inventory_items.edit', compact('conditions', 'types', 'units', 'inventoryItem', 'capacities'));
     }
 
     /**
@@ -96,8 +102,10 @@ class InventoryItemController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
+            'code' =>'nullable|unique:inventory_items,code,'. $inventoryItem->id,
             'name' =>'required|unique:inventory_items,name,'. $inventoryItem->id,
             'brand' =>'nullable',
+            'spesification' =>'nullable',
             'description' => 'nullable',
             'warranty' => 'nullable',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -105,6 +113,7 @@ class InventoryItemController extends Controller
             'stock' => 'required|integer|min:0',
             'type_id' =>'required|exists:item_types,id',
             'unit_id' =>'required|exists:item_units,id',
+            'capacity_pk' => 'nullable|in:0.5,0.75,1,1.5,2,2.5,3',
         ]);
 
         // Proses upload foto jika ada
