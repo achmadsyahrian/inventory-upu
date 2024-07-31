@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/item-request', \App\Http\Controllers\DivisionAdmin\DivisionRequestController::class)->names('divisionrequests');
         Route::get('/item-request/{date}/detail', [\App\Http\Controllers\DivisionAdmin\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
         Route::resource('/inventory-items', \App\Http\Controllers\DivisionAdmin\InventoryItemController::class)->names('inventoryitems');
+
+        Route::resource('/division-items', \App\Http\Controllers\DivisionAdmin\DivisionItemController::class)->names('divisionitems');
     }); 
 
     Route::prefix('vice-rector-2')->middleware(['role:4'])->name('vice_rector2.')->group(function () {

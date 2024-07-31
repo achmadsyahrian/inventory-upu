@@ -24,5 +24,10 @@ class DivisionItem extends Model
     {
         return $this->belongsTo(Division::class);
     }
+
+    public function condition()
+    {
+        return $this->belongsTo(ItemCondition::class, 'condition_id');
+    }
     
 }
