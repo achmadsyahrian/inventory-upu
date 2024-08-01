@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/item-units', \App\Http\Controllers\InventoryAdmin\ItemUnitController::class)->names('itemunits');
         
         Route::resource('/inventory-items', \App\Http\Controllers\InventoryAdmin\InventoryItemController::class)->names('inventoryitems');
+        Route::get('/print/inventory-items/', [\App\Http\Controllers\InventoryAdmin\InventoryItemController::class, 'print'])->name('inventoryitems.print');
+
         Route::resource('/item-entries', \App\Http\Controllers\InventoryAdmin\ItemEntryController::class)->names('itementries');
 
         Route::resource('/item-request', \App\Http\Controllers\InventoryAdmin\DivisionRequestController::class)->names('divisionrequests');

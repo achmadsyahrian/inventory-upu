@@ -31,6 +31,7 @@
                <div class="card-body">
                   <div class="float-right">
                      <div class="input-group">
+                        <a href="{{ route('inventory_admin.inventoryitems.print') }}" class="btn btn-warning ml-3 text-white"><i class="fas fa-print"></i> Print</a>
                         <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
                         <form action="{{ route('inventory_admin.inventoryitems.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>

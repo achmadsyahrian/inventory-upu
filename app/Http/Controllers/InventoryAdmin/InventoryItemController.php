@@ -7,6 +7,9 @@ use App\Models\InventoryItem;
 use App\Models\ItemCondition;
 use App\Models\ItemType;
 use App\Models\ItemUnit;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -174,6 +177,52 @@ class InventoryItemController extends Controller
     }
 
 
+    public function print()
+    {
 
-    
+        $data = InventoryItem::orderBy('name', 'asc')->get();
+        $time = Carbon::now();
+
+        // Ambil data untuk halaman pertama (15 item)
+        $firstPageData = $data->splice(0, 15);
+
+        // Ambil data untuk halaman berikutnya (20 item per halaman)
+        $remainingData = $data->chunk(20);
+
+        // Gabungkan kembali halaman pertama dengan halaman-halaman berikutnya
+        $chunkedData = collect([$firstPageData])->merge($remainingData);
+
+        $html = view('inventory_admin.inventory_items.print', [
+            'chunkedData' => $chunkedData,
+            'time' => $time,
+            'pageCount' => $chunkedData->count(),
+        ])->render();
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        $pageCount = $dompdf->getCanvas()->get_page_count();
+
+        session(['pageCount' => $pageCount]);
+
+        $output = $dompdf->output();
+
+        return response()->stream(
+            function () use ($output) {
+                print($output);
+            },
+            200,
+            [
+                "Content-Type" => "application/pdf",
+                "Content-Disposition" => "inline; filename=document.pdf",
+            ]
+        );
+    }
+
 }

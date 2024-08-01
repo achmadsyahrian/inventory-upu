@@ -39,5 +39,10 @@ class InventoryItem extends Model
     {
         return $this->belongsTo(ItemUnit::class, 'unit_id');
     }
+
+    public function itemEntries()
+    {
+        return $this->hasMany(ItemEntry::class);
+    }
     
 }
