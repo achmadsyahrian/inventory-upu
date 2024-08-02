@@ -115,7 +115,7 @@
                               </div>
                               <div class="form-group col-md-12 col-12">
                                  <label>Keterangan</label>
-                                 <input type="text" class="form-control" name="description" value="{{ old('description', $divisionItem->division->description) }}" placeholder="Masukkan Keterangan" autocomplete="off">
+                                 <input type="text" class="form-control" name="description" value="{{ old('description', $divisionItem->description) }}" placeholder="Masukkan Keterangan" autocomplete="off">
                                  <x-invalid-feedback field='description'></x-invalid-feedback>
                               </div>
 

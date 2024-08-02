@@ -28,14 +28,15 @@
                   <h4>Data Barang</h4>
                </div>
                <div class="card-body">
-                  {{-- <div class="float-right">
+                  <div class="float-right">
                      <div class="input-group">
-                        <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
+                        <a href="{{ route('division_admin.divisionitems.print') }}" class="btn btn-warning ml-3 text-white"><i class="fas fa-print"></i> Print</a>
+                        {{-- <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
                         <form action="{{ route('division_admin.divisionitems.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>
-                        </form>
+                        </form> --}}
                      </div>
-                  </div> --}}
+                  </div>
                   <div class="clearfix mb-3"></div>
 
                   <div class="table-responsive">
