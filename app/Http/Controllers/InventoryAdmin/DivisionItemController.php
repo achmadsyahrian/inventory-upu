@@ -80,6 +80,7 @@ class DivisionItemController extends Controller
         ]);
 
         $divisionItem->quantity += $validatedData['quantity'];
+        $divisionItem->condition_id = $inventoryItem->condition_id;
         $divisionItem->save();
 
         return redirect()->route('inventory_admin.divisionitems.index')->with('success', 'Data Barang berhasil ditambahkan');

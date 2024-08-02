@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InventoryAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DivisionItem;
 use App\Models\InventoryItem;
 use App\Models\ItemCondition;
 use App\Models\ItemType;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class InventoryItemController extends Controller
@@ -179,18 +181,60 @@ class InventoryItemController extends Controller
 
     public function print()
     {
+        $inventoryItems = InventoryItem::orderBy('name', 'asc')->get();
+        $divisionItems = DivisionItem::with(['inventoryItem', 'division'])->get();
 
-        $data = InventoryItem::orderBy('name', 'asc')->get();
-        $time = Carbon::now();
+        // Gabungkan data dari InventoryItem dan DivisionItem
+        $combinedData = new Collection();
+
+        foreach ($inventoryItems as $item) {
+            $combinedData->push((object) [
+                'date' => $item->created_at,
+                'name' => $item->name,
+                'brand' => $item->brand,
+                'spesification' => $item->spesification,
+                'stock' => $item->stock,
+                'code' => $item->code,
+                'price' => $item->itemEntries->sum('price'),
+                'supplier_name' => $item->itemEntries->pluck('supplier')->unique()->implode(', ') ?: '-',
+                'capacity_pk' => $item->capacity_pk,
+                'condition_id' => $item->condition_id,
+                'location' => '-',
+                'description' => $item->description,
+            ]);
+        }
+
+        foreach ($divisionItems as $item) {
+            $inventoryItem = $item->inventoryItem;
+            $combinedData->push((object) [
+                'date' => $item->created_at,
+                'name' => $inventoryItem->name,
+                'brand' => $inventoryItem->brand,
+                'spesification' => $inventoryItem->spesification,
+                'stock' => $item->quantity,
+                'code' => $inventoryItem->code,
+                'price' => $inventoryItem->itemEntries->sum('price'),
+                'supplier_name' => $inventoryItem->itemEntries->pluck('supplier')->unique()->implode(', ') ?: '-',
+                'capacity_pk' => $inventoryItem->capacity_pk,
+                'condition_id' => $item->condition_id,
+                'location' => $item->division->name,
+                'description' => $item->description,
+            ]);
+        }
+
+        // Urutkan data gabungan berdasarkan nama barang
+        $combinedData = $combinedData->sortBy('name');
 
         // Ambil data untuk halaman pertama (15 item)
-        $firstPageData = $data->splice(0, 15);
+        $firstPageData = $combinedData->splice(0, 15);
 
         // Ambil data untuk halaman berikutnya (20 item per halaman)
-        $remainingData = $data->chunk(20);
+        $remainingData = $combinedData->chunk(20);
 
         // Gabungkan kembali halaman pertama dengan halaman-halaman berikutnya
         $chunkedData = collect([$firstPageData])->merge($remainingData);
+
+        $time = Carbon::now();
 
         $html = view('inventory_admin.inventory_items.print', [
             'chunkedData' => $chunkedData,
