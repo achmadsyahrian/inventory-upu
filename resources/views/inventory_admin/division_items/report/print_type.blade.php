@@ -133,12 +133,12 @@
                         <strong>DOKUMEN LEVEL</strong><br>FORM
                     </td>
                     <td class="header-cell" style="width: 30%;">
-                        <strong>NO. DOKUMEN</strong><br>F-/SPMI/06-04-05
+                        <strong>NO. DOKUMEN</strong><br>F-/SPMI/06-04-06
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="2" class="header-cell">
-                        <strong>JUDUL</strong><br>DAFTAR INVENTARIS UNIT DIVISI
+                        <strong>JUDUL</strong><br>LAPORAN INVENTORI BARANG BERUPA {{ $typeName }}
                     </td>
                     <td class="">
                         <span style="width: 120px; display: inline-block"> Tanggal Terbit </span> : 08 April 2019
@@ -151,7 +151,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="2" class="header-cell">
-                        <strong>AREA</strong><br>BAGIAN INVENTORI
+                        <strong>AREA</strong><br>INVENTORI
                     </td>
                     <td class="">
                         <div id="page-num-container">
@@ -177,8 +177,8 @@
             <div class="flex-container"
                 style="display: flex; justify-content: space-between; font-size: 13px;">
                 <div style="position: absolute; margin-bottom: 10px;">
-                    <p>Bagian: {{ auth()->user()->division->name }}</p>
-                    <p>Bulan: {{ $time->isoFormat('MMMM') }} {{ $time->isoFormat('YYYY') }}</p>
+                    <p>Bagian: {{ $division->name }}</p>
+                    <p>Bulan / Tahun: {{ $time->isoFormat('MMMM') }} {{ $time->isoFormat('YYYY') }}</p>
                 </div>
                 <div style="position: absolute; right: 20; margin-bottom:10px;">
                 </div>
@@ -187,29 +187,35 @@
                 <thead>
                     <tr>
                         <th rowspan="2">No.</th>
-                        <th rowspan="2">Tgl Pengadaan</th>
                         <th rowspan="2">Nama Inventaris</th>
-                        <th rowspan="2">Jumlah</th>
+                        <th rowspan="2">Merek</th>
+                        <th rowspan="2">Spesifikasi</th>
                         <th rowspan="2">Kode Inventaris</th>
-                        <th rowspan="2">Kapasitas PK</th>
+                        <th rowspan="2">Tgl Pengadaan</th>
+                        <th rowspan="2">JLH</th>
+                        <th rowspan="2">Satuan</th>
                         <th colspan="3">Kondisi</th>
                         <th rowspan="2">Keterangan</th>
                     </tr>
                     <tr>
                         <th>B</th>
                         <th>KB</th>
-                        <th>RB</th>
+                        <th>R</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($dataChunk as $item)
                         <tr>
-                           <td>{{ $currentNumber++ }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</td>
+                            <td>{{ $currentNumber++ }}</td>
                             <td style="text-align:left;">{{ $item->inventoryItem->name }}</td>
-                            <td>{{ $item->quantity }}</td>
+                            <td>{{ $item->inventoryItem->brand ?? '-' }}</td>
+                            <td>{{ $item->inventoryItem->spesification ?? '-' }}</td>
                             <td>{{ $item->inventoryItem->code ?? '-' }}</td>
-                            <td>{{ $item->inventoryItem->capacity_pk ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>
+                                {{ $item->inventoryItem->unit ? $item->inventoryItem->unit->name . ($item->inventoryItem->unit->symbol ? ' (' . $item->inventoryItem->unit->symbol . ')' : '') : '--' }}
+                             </td>
                             <td>
                                 @if ($item->condition_id == 1)
                                     <div style="font-family: DejaVu Sans, sans-serif;">

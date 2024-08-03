@@ -155,11 +155,27 @@ class DivisionItemController extends Controller
 
     public function print(Request $request)
     {
+        $request->validate([
+            'division_id' => 'required|exists:divisions,id',
+            'type_id' => 'required|in:1,2,3'
+        ]);
+        
         $division = Division::findOrFail($request->division_id);
+        $typeId = $request->type_id;
+
+        // Query data berdasarkan type_id
         $data = DivisionItem::where('division_id', $request->division_id)
-                ->with('inventoryItem')
-                ->get()
-                ->sortBy('inventoryItem.name');
+                            ->with(['inventoryItem' => function($query) use ($typeId) {
+                                if (in_array($typeId, [1, 2])) {
+                                    $query->where('type_id', $typeId);
+                                }
+                            }])
+                            ->get()
+                            ->filter(function($item) use ($typeId) {
+                                // Filter out items that do not have an inventory item when type_id is 1 or 2
+                                return !in_array($typeId, [1, 2]) || $item->inventoryItem;
+                            })
+                            ->sortBy('inventoryItem.name');
 
         // Hitung jumlah total data
         $totalCount = $data->count();
@@ -178,10 +194,17 @@ class DivisionItemController extends Controller
 
         $time = Carbon::now();
 
-        $html = view('inventory_admin.division_items.print', [
+        // Tentukan tampilan yang akan digunakan berdasarkan type_id
+        $view = ($typeId == 3) ? 'inventory_admin.division_items.report.print' : 'inventory_admin.division_items.report.print_type';
+
+        // Tentukan string berdasarkan type_id
+        $typeName = ($typeId == 1) ? 'HABIS PAKAI' : (($typeId == 2) ? 'ASSET' : '');
+        
+        $html = view($view, [
             'chunkedData' => $chunkedData,
             'time' => $time,
             'division' => $division,
+            'typeName' => $typeName,
             'pageCount' => $chunkedData->count(),
         ])->render();
 

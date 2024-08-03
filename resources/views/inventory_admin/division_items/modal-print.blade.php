@@ -13,12 +13,21 @@
             </div>
             <div class="modal-body">
                <div class="form-group">
-                  <label>Divisi</label>
+                  <label>Divisi <x-label-required></x-label-required></label>
                   <select class="form-control selectric" name="division_id">
                      <option selected disabled>Pilih Divisi</option>
                      @foreach ($divisions as $item)
                         <option value="{{ $item->id }}" {{ request('division_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                      @endforeach
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label>Jenis Barang</label>
+                  <select class="form-control selectric" name="type_id">
+                     <option selected disabled>Pilih Jenis</option>
+                     <option value="3" {{ request('type_id') == 3 ? 'selected' : '' }}>Semua</option>
+                     <option value="2" {{ request('type_id') == 2 ? 'selected' : '' }}>Non-Habis Pakai</option>
+                     <option value="1" {{ request('type_id') == 1 ? 'selected' : '' }}>Habis Pakai</option>
                   </select>
                </div>
             </div>

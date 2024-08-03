@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print Permohonan Pengembangan Koneksi Jaringan</title>
+    <title>Laporan Inventori Barang</title>
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
@@ -138,7 +138,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="2" class="header-cell">
-                        <strong>JUDUL</strong><br>DAFTAR INVENTARIS UNIT DIVISI
+                        <strong>JUDUL</strong><br>DAFTAR INVENTARIS KESELURUHAN UNIT DIVISI
                     </td>
                     <td class="">
                         <span style="width: 120px; display: inline-block"> Tanggal Terbit </span> : 08 April 2019
@@ -175,15 +175,15 @@
         <div class="container"
             style="position: absolute; bottom: 0; width: 100%; left: 0; {{ $index === 0 ? 'top: 200px;' : '' }}">
             <div class="flex-container"
-                style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 500;">
+                style="display: flex; justify-content: space-between; font-size: 13px;">
                 <div style="position: absolute; margin-bottom: 10px;">
                     <p>Bagian: {{ $division->name }}</p>
+                    <p>Bulan / Tahun: {{ $time->isoFormat('MMMM') }} {{ $time->isoFormat('YYYY') }}</p>
                 </div>
                 <div style="position: absolute; right: 20; margin-bottom:10px;">
-                    <p>Bulan: {{ $time->isoFormat('MMMM') }} {{ $time->isoFormat('YYYY') }}</p>
                 </div>
             </div>
-            <table class="table-data" style="margin-top: 15px;">
+            <table class="table-data" style="margin-top: 30px;">
                 <thead>
                     <tr>
                         <th rowspan="2">No.</th>
@@ -205,7 +205,7 @@
                     @foreach ($dataChunk as $item)
                         <tr>
                            <td>{{ $currentNumber++ }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                             <td style="text-align:left;">{{ $item->inventoryItem->name }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->inventoryItem->code ?? '-' }}</td>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print Permohonan Pengembangan Koneksi Jaringan</title>
+    <title>Laporan Inventori Barang</title>
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
@@ -217,7 +217,7 @@
                             <td>{{ $item->spesification ?? '-' }}</td>
                             <td>{{ $item->stock }}</td>
                             <td>{{ $item->code ?? '-' }}</td>
-                            <td>{{ $item->price ?? '-' }}</td>
+                            <td style="white-space: nowrap;">Rp. {{ number_format($item->price, 0, ',', '.') }}</td>
                             <td>{{ $item->supplier_name ?? '-' }}</td>
                             <td>{{ $item->capacity_pk ?? '-' }}</td>
                             <td>
