@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Division;
 use App\Models\DivisionItem;
 use App\Models\InventoryItem;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 
 class DivisionItemController extends Controller
@@ -148,5 +151,65 @@ class DivisionItemController extends Controller
     public function destroy(DivisionItem $divisionItem)
     {
         //
+    }
+
+    public function print(Request $request)
+    {
+        $division = Division::findOrFail($request->division_id);
+        $data = DivisionItem::where('division_id', $request->division_id)
+                ->with('inventoryItem')
+                ->get()
+                ->sortBy('inventoryItem.name');
+
+        // Hitung jumlah total data
+        $totalCount = $data->count();
+
+        // Tentukan jumlah item pada halaman pertama
+        $firstPageCount = ($totalCount > 15) ? 15 : ($totalCount >= 10 ? 10 : $totalCount);
+
+        // Ambil data untuk halaman pertama
+        $firstPageData = $data->splice(0, $firstPageCount);
+
+        // Ambil data untuk halaman-halaman berikutnya (20 item per halaman)
+        $remainingData = $data->chunk(20);
+
+        // Gabungkan halaman pertama dengan halaman-halaman berikutnya
+        $chunkedData = collect([$firstPageData])->merge($remainingData);
+
+        $time = Carbon::now();
+
+        $html = view('inventory_admin.division_items.print', [
+            'chunkedData' => $chunkedData,
+            'time' => $time,
+            'division' => $division,
+            'pageCount' => $chunkedData->count(),
+        ])->render();
+
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        $pageCount = $dompdf->getCanvas()->get_page_count();
+
+        session(['pageCount' => $pageCount]);
+
+        $output = $dompdf->output();
+
+        return response()->stream(
+            function () use ($output) {
+                print($output);
+            },
+            200,
+            [
+                "Content-Type" => "application/pdf",
+                "Content-Disposition" => "inline; filename=document.pdf",
+            ]
+        );
     }
 }

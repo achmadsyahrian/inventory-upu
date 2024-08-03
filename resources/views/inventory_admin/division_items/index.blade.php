@@ -31,6 +31,7 @@
                <div class="card-body">
                   <div class="float-right">
                      <div class="input-group">
+                        <button type="button" class="btn btn-warning ml-3" data-toggle="modal" data-target="#printModal"><i class="fas fa-print"></i> Print</button>
                         <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#exampleModal">Pencarian Lanjutan</button>
                         <form action="{{ route('inventory_admin.divisionitems.index') }}" method="GET" style="display:inline;">
                            <button type="submit" class="btn btn-secondary ml-3">Reset Pencarian</button>
@@ -124,4 +125,5 @@
 </div>
 
 @include('inventory_admin.division_items.modal')
+@include('inventory_admin.division_items.modal-print')
 @endsection

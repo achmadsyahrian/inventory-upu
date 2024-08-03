@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get-division-inventory-items/{itemId}/{divisionId}', [\App\Http\Controllers\InventoryAdmin\DivisionLoanController::class, 'getInventoryItem'])->name('divisionloans.getItems');
 
         Route::resource('/division-items', \App\Http\Controllers\InventoryAdmin\DivisionItemController::class)->names('divisionitems');
-
+        Route::post('/print/division-items/', [\App\Http\Controllers\InventoryAdmin\DivisionItemController::class, 'print'])->name('divisionitems.print');
     }); 
 
     Route::prefix('division-admin')->middleware(['role:3'])->name('division_admin.')->group(function () {

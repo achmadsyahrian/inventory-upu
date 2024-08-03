@@ -177,7 +177,7 @@
             <div class="flex-container"
                 style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 500;">
                 <div style="position: absolute; margin-bottom: 10px;">
-                    <p>Bagian: {{ auth()->user()->division->name }}</p>
+                    <p>Bagian: {{ $division->name }}</p>
                 </div>
                 <div style="position: absolute; right: 20; margin-bottom:10px;">
                     <p>Bulan: {{ $time->isoFormat('MMMM') }} {{ $time->isoFormat('YYYY') }}</p>
