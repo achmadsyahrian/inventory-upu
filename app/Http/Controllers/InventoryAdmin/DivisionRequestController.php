@@ -7,6 +7,8 @@ use App\Models\Division;
 use App\Models\DivisionRequest;
 use App\Models\InventoryItem;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -110,6 +112,77 @@ class DivisionRequestController extends Controller
 
         return redirect()->route('division_admin.divisionrequests.create')
             ->with('success', 'Permintaan barang berhasil dihapus');
+    }
+
+    public function print(Request $request)
+    {
+        $request->validate([
+            'month' => 'required|integer|between:1,12',
+            'year' => 'required|integer',
+        ]);
+    
+        $month = $request->month;
+        $year = $request->year;
+    
+        // Query data berdasarkan bulan dan tahun pada kolom created_at
+        $data = DivisionRequest::whereYear('created_at', $year)
+                                ->whereMonth('created_at', $month)
+                                ->with('inventoryItem.unit')
+                                ->get()
+                                ->sortBy('inventoryItem.name');
+    
+        // Kelompokkan data berdasarkan nama barang
+        $groupedData = $data->groupBy('inventoryItem.name')->map(function ($items) {
+            $firstItem = $items->first();
+            return [
+                'name' => $firstItem->inventoryItem->name,
+                'divisions' => $items->pluck('division.name')->unique()->implode(', '),
+                'quantity' => $items->sum('quantity'),
+                'unit' => $firstItem->inventoryItem->unit->name ?? '',
+                'stock' => $firstItem->inventoryItem->stock,
+                'brand' => $firstItem->inventoryItem->brand,
+                'spesification' => $firstItem->inventoryItem->spesification,
+            ];
+        })->values();
+    
+        // Bagikan data menjadi potongan-potongan dengan ukuran 25
+        $chunkedData = $groupedData->chunk(30);
+    
+        $time = Carbon::now();
+    
+        $html = view('inventory_admin.division_requests.print', [
+            'chunkedData' => $chunkedData,
+            'time' => $time,
+            'month' => $month,
+            'year' => $year,
+            'pageCount' => $chunkedData->count(),
+        ])->render();
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+
+        $pageCount = $dompdf->getCanvas()->get_page_count();
+
+        session(['pageCount' => $pageCount]);
+
+        $output = $dompdf->output();
+
+        return response()->stream(
+            function () use ($output) {
+                print($output);
+            },
+            200,
+            [
+                "Content-Type" => "application/pdf",
+                "Content-Disposition" => "inline; filename=document.pdf",
+            ]
+        );
     }
 
 }

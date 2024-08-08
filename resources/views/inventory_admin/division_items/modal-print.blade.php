@@ -22,7 +22,7 @@
                   </select>
                </div>
                <div class="form-group">
-                  <label>Jenis Barang</label>
+                  <label>Jenis Barang <x-label-required></x-label-required></label>
                   <select class="form-control selectric" name="type_id">
                      <option selected disabled>Pilih Jenis</option>
                      <option value="3" {{ request('type_id') == 3 ? 'selected' : '' }}>Semua</option>

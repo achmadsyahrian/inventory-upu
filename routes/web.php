@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/item-request', \App\Http\Controllers\InventoryAdmin\DivisionRequestController::class)->names('divisionrequests');
         Route::get('/item-request/{division}/{date}/detail', [\App\Http\Controllers\InventoryAdmin\DivisionRequestController::class, 'show'])->name('divisionrequests.detail');
+        Route::post('/print/item-request/', [\App\Http\Controllers\InventoryAdmin\DivisionRequestController::class, 'print'])->name('divisionrequests.print');
 
         Route::resource('/item-loans', \App\Http\Controllers\InventoryAdmin\DivisionLoanController::class)->names('divisionloans');
         Route::post('/item-loans/{item}/return', [\App\Http\Controllers\InventoryAdmin\DivisionLoanController::class, 'return'])->name('divisionloans.return');
