@@ -9,11 +9,7 @@ class DivisionItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'inventory_item_id',
-        'division_id',
-        'quantity',
-    ];
+    protected $guarded = ['id'];
 
     public function inventoryItem()
     {

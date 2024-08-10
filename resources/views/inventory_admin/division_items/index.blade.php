@@ -78,7 +78,7 @@
                               {{ $item->inventoryItem->unit ? $item->inventoryItem->unit->name . ($item->inventoryItem->unit->symbol ? ' (' . $item->inventoryItem->unit->symbol . ')' : '') : '--' }}
                            </td>
                            <td>
-                              @php
+                              {{-- @php
                                  $condition = strtolower($item->condition->name);
                                  $badgeClass = '';
 
@@ -101,8 +101,7 @@
                                           break;
                                  }
                               @endphp
-
-                              <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->condition->name }}</div>
+                              <div class="badge {{ $badgeClass }}">{!! $icon !!} {{ $item->condition->name }}</div> --}}
                            </td>
                            <td>
                               {{-- <a href="{{ route('inventory_admin.inventoryitems.edit', [$item->inventoryItem]) }}" class="btn btn-info btn-action mr-1" data-toggle="tooltip" title="Lihat Barang"><i class="fas fa-eye"></i></a> --}}

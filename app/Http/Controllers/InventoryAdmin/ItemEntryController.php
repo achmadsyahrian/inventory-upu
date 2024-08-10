@@ -5,6 +5,7 @@ namespace App\Http\Controllers\InventoryAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\InventoryItem;
 use App\Models\ItemEntry;
+use App\Models\StockControl;
 use Illuminate\Http\Request;
 
 class ItemEntryController extends Controller
@@ -36,11 +37,11 @@ class ItemEntryController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'inventory_item_id' =>'required',
-            'entry_date' =>'required|date',
-            'supplier' =>'nullable',
-            'quantity' =>'required|numeric|min:1',
-            'price' =>'required|min:1',
+            'inventory_item_id' => 'required|exists:inventory_items,id',
+            'entry_date' => 'required|date',
+            'supplier' => 'nullable',
+            'quantity' => 'required|numeric|min:1',
+            'price' => 'required|min:1',
         ]);
 
         // Hapus karakter titik dari price
@@ -54,8 +55,20 @@ class ItemEntryController extends Controller
         $inventoryItem->stock += $request->quantity;
         $inventoryItem->save();
 
+        // Simpan entri ke stock_controls
+        StockControl::create([
+            'inventory_item_id' => $request->inventory_item_id,
+            'description' => 'Pemasukan barang',
+            'date' => \Carbon\Carbon::parse($request->entry_date)->format('Y-m-d'),
+            'type' => 'entry',
+            'in' => $request->quantity,
+            'out' => NULL,
+            'stock_after' => $inventoryItem->stock,
+        ]);
+
         return redirect()->route('inventory_admin.itementries.index')->with('success', 'Stok barang berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
@@ -87,16 +100,32 @@ class ItemEntryController extends Controller
      */
     public function destroy(ItemEntry $itemEntry)
     {
+        // Simpan data sebelum dihapus untuk digunakan nanti
+        $inventoryItemId = $itemEntry->inventory_item_id;
+        $quantity = $itemEntry->quantity;
+
         // Hapus data entry
         $itemEntry->delete();
 
         // Kurangi stok inventory item
-        $inventoryItem = InventoryItem::find($itemEntry->inventory_item_id);
-        $inventoryItem->stock -= $itemEntry->quantity;
+        $inventoryItem = InventoryItem::find($inventoryItemId);
+        $inventoryItem->stock -= $quantity;
         $inventoryItem->save();
+
+        // Tambahkan entri ke stock_controls
+        StockControl::create([
+            'inventory_item_id' => $inventoryItemId,
+            'description' => 'Pemasukan barang dibatalkan',
+            'date' => now()->format('Y-m-d'),
+            'type' => 'entry',
+            'in' => NULL,
+            'out' => $quantity,
+            'stock_after' => $inventoryItem->stock,
+        ]);
 
         return redirect()->route('inventory_admin.itementries.index')->with('success', 'Stok barang berhasil dihapus');
     }
+
 
     // Ambil Inentory Item Sesuai Pilihan
     public function getInventoryItem($id)

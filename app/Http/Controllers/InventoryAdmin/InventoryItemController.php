@@ -8,6 +8,7 @@ use App\Models\InventoryItem;
 use App\Models\ItemCondition;
 use App\Models\ItemType;
 use App\Models\ItemUnit;
+use App\Models\StockControl;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -74,8 +75,19 @@ class InventoryItemController extends Controller
         }
         
         // Simpan data ke database
-        InventoryItem::create($validatedData);
+        $item = InventoryItem::create($validatedData);
 
+        // Catat ke tabel stock_controls
+        StockControl::create([
+            'inventory_item_id' => $item->id,
+            'description' => 'Persediaan Barang',
+            'date' => $item->created_at->format('Y-m-d'),
+            'type' => 'entry',
+            'in' => $item->stock,
+            'out' => NULL,
+            'stock_after' => $item->stock,
+        ]);
+        
         return redirect()->route('inventory_admin.inventoryitems.index')->with('success', 'Barang baru berhasil ditambahkan');
     }
 
@@ -131,10 +143,29 @@ class InventoryItemController extends Controller
         }
 
         // Simpan data ke database
+        $oldStock = $inventoryItem->stock;
         $inventoryItem->update($validatedData);
+        $newStock = $inventoryItem->stock;
+
+        // Jika stock berubah, catat di tabel stock_controls
+        if ($oldStock != $newStock) {
+            $quantityChanged = $newStock - $oldStock;
+            $stockAfter = $newStock;
+
+            StockControl::create([
+                'inventory_item_id' => $inventoryItem->id,
+                'description' => 'Pembaruan persediaan barang',
+                'date' => now()->format('Y-m-d'),
+                'type' => $quantityChanged > 0 ? 'entry' : 'distribution',
+                'in' => $quantityChanged > 0 ? $quantityChanged : null,
+                'out' => $quantityChanged < 0 ? abs($quantityChanged) : null,
+                'stock_after' => $stockAfter,
+            ]);
+        }
 
         return redirect()->route('inventory_admin.inventoryitems.index')->with('success', 'Barang berhasil diperbarui');
     }
+
 
     /**
      * Remove the specified resource from storage.

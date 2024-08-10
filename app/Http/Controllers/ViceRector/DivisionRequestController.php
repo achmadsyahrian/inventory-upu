@@ -7,6 +7,7 @@ use App\Models\Division;
 use App\Models\DivisionItem;
 use App\Models\DivisionRequest;
 use App\Models\InventoryItem;
+use App\Models\StockControl;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,6 +118,8 @@ class DivisionRequestController extends Controller
         $inventoryItem->stock -= $itemRequest->quantity;
         $inventoryItem->save();
 
+        $conditionId = $inventoryItem->condition_id;
+        
         // Tambahkan entry barang
         $itemEntry = DivisionItem::updateOrCreate(
             [
@@ -125,6 +128,7 @@ class DivisionRequestController extends Controller
             ],
             [
                 'quantity' => DB::raw('quantity + ' . $itemRequest->quantity),
+                'condition_id' => $conditionId,
                 'updated_at' => Carbon::now(),
             ]
         );
@@ -133,8 +137,23 @@ class DivisionRequestController extends Controller
         $itemRequest->status = 'approved';
         $itemRequest->save();
 
+        // Ambil nama divisi
+        $divisionName = Division::find($itemRequest->division_id)->name;
+
+        // Tambahkan entri ke stock_controls
+        StockControl::create([
+            'inventory_item_id' => $itemRequest->inventory_item_id,
+            'description' => "Barang didistribusikan kepada " . $divisionName . " berdasarkan permintaan",
+            'date' => now()->format('Y-m-d'),
+            'type' => 'distribution',
+            'in' => NULL,
+            'out' => $itemRequest->quantity,
+            'stock_after' => $inventoryItem->stock,
+        ]);
+
         return redirect()->back()->with('success', 'Permintaan barang berhasil disetujui');
     }
+
 
     // Reject
     public function reject(DivisionRequest $id)

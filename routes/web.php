@@ -58,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/division-items', \App\Http\Controllers\InventoryAdmin\DivisionItemController::class)->names('divisionitems');
         Route::post('/print/division-items/', [\App\Http\Controllers\InventoryAdmin\DivisionItemController::class, 'print'])->name('divisionitems.print');
+
+        Route::get('/stock-control', [\App\Http\Controllers\InventoryAdmin\StockControlController::class, 'index'])->name('stockcontrols.index');
+        Route::post('/stock-control/print', [\App\Http\Controllers\InventoryAdmin\StockControlController::class, 'print'])->name('stockcontrols.print');
     }); 
 
     Route::prefix('division-admin')->middleware(['role:3'])->name('division_admin.')->group(function () {

@@ -38,6 +38,7 @@
          </li>
          <li class="{{ Request::is('*item-request*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.divisionrequests.index') }}"><i class="fas fa-clipboard-list"></i> <span>Permintaan Barang</span></a></li>
          <li class="{{ Request::is('*item-loans*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.divisionloans.index') }}"><i class="fas fa-handshake"></i> <span>Peminjaman Barang</span></a></li>
+         <li class="{{ Request::is('*stock-control*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.stockcontrols.index') }}"><i class="fas fa-chart-line"></i> <span>Stock Control</span></a></li>
 
          <li class="menu-header">Divisi</li>
          <li class="{{ Request::is('*division-items*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('inventory_admin.divisionitems.index') }}"><i class="fas fa-cube"></i> <span>Barang Divisi</span></a></li>
