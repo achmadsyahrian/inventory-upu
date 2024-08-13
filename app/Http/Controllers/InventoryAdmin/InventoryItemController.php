@@ -52,7 +52,7 @@ class InventoryItemController extends Controller
         
         // Validasi input
         $validatedData = $request->validate([
-            'code' =>'nullable|unique:inventory_items',
+            'code' =>'nullable',
             'name' =>'required|unique:inventory_items',
             'brand' =>'nullable',
             'spesification' =>'nullable',

@@ -58,7 +58,7 @@
                               </div>
                            </td>
                            <td>
-                              <div class="badge badge-{{ $item->type_id == 1 ? 'primary' : 'info' }}" data-toggle="tooltip" title="{{ $item->type_id == 1 ? 'Habis Pakai' : 'Non-Habis Pakai' }}">
+                              <div class="badge badge-{{ $item->type_id == 1 ? 'primary' : 'info' }}" data-toggle="tooltip" title="{{ $item->type_id == 1 ? 'Habis Pakai' : 'Asset' }}">
                                  <i class="fas fa-{{ $item->type_id == 1 ? 'recycle' : 'box-open' }}"></i> {{ $item->type->name }}
                               </div>                             
                            </td>

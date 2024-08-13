@@ -17,7 +17,7 @@ class ItemTypeSeeder extends Seeder
             'name' => 'Habis Pakai',
         ]);
         ItemType::create([
-            'name' => 'Non-Habis Pakai',
+            'name' => 'Asset',
         ]);
     }
 }

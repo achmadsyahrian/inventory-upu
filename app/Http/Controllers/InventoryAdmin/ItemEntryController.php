@@ -58,7 +58,7 @@ class ItemEntryController extends Controller
         // Simpan entri ke stock_controls
         StockControl::create([
             'inventory_item_id' => $request->inventory_item_id,
-            'description' => 'Pemasukan barang',
+            'description' => 'Pembelian barang',
             'date' => \Carbon\Carbon::parse($request->entry_date)->format('Y-m-d'),
             'type' => 'entry',
             'in' => $request->quantity,
@@ -115,7 +115,7 @@ class ItemEntryController extends Controller
         // Tambahkan entri ke stock_controls
         StockControl::create([
             'inventory_item_id' => $inventoryItemId,
-            'description' => 'Pemasukan barang dibatalkan',
+            'description' => 'Pembelian barang dibatalkan',
             'date' => now()->format('Y-m-d'),
             'type' => 'entry',
             'in' => NULL,
