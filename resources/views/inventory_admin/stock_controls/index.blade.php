@@ -23,13 +23,28 @@
 
    
       <div class="row mt-4">
-         <div class="col-12">
+         <div class="col-5">
             <div class="card">
                <div class="card-body">
                   <form action="{{ route('inventory_admin.stockcontrols.print') }}" method="post">
                      @csrf
                      <div class="row">
                         <div class="form-group col-md-6 col-12">
+                           <label>Dari </label>
+                           <input type="date" name="from_date" class="form-control" placeholder="Dari Tanggal">
+                           @error('from_date')
+                           <div class="form-text text-danger">{{ $message }}</div>
+                           @enderror
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                           <label>Hingga</label>
+                           <input type="date" name="to_date" class="form-control" placeholder="Hingga Tanggal">
+                           @error('to_date')
+                           <div class="form-text text-danger">{{ $message }}</div>
+                           @enderror
+                        </div>
+                        <div class="form-group col-md-12 col-12">
+                           <label>Barang <x-label-required></x-label-required></label>
                            <select class="form-control select2" name="inventory_item_id" id="inventory-item-select">
                                <option selected disabled>Pilih Barang</option>
                                @foreach ($inventoryItems as $item)

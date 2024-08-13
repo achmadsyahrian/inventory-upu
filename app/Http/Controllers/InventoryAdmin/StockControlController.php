@@ -27,14 +27,30 @@ class StockControlController extends Controller
         // Validasi request
         $request->validate([
             'inventory_item_id' => 'required|exists:inventory_items,id',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date|after_or_equal:from_date',
         ]);
 
         $inventoryItemId = $request->inventory_item_id;
+        $fromDate = $request->from_date;
+        $toDate = $request->to_date;
 
-        // Ambil semua data dari tabel stock_controls
-        $stockControls = StockControl::where('inventory_item_id', $inventoryItemId)
-            ->orderBy('date', 'asc')
-            ->get();
+        // Validasi bahwa jika salah satu tanggal diisi, yang lainnya juga harus diisi
+        if (($fromDate && !$toDate) || (!$fromDate && $toDate)) {
+            return redirect()->back()->withErrors(['from_date' => 'Tanggal mulai dan tanggal akhir harus diisi secara bersamaan.']);
+        }
+
+        // Ambil semua data dari tabel stock_controls berdasarkan kondisi tanggal
+        if ($fromDate && $toDate) {
+            $stockControls = StockControl::where('inventory_item_id', $inventoryItemId)
+                ->whereBetween('date', [$fromDate, $toDate])
+                ->orderBy('date', 'asc')
+                ->get();
+        } else {
+            $stockControls = StockControl::where('inventory_item_id', $inventoryItemId)
+                ->orderBy('date', 'asc')
+                ->get();
+        }
 
         // Ambil nama item dari inventory_item_id
         $inventoryItem = InventoryItem::find($inventoryItemId);
@@ -51,6 +67,7 @@ class StockControlController extends Controller
             'time' => $time,
             'itemName' => $itemName, // Kirimkan itemName ke view
         ])->render();
+
 
 
         $options = new Options();

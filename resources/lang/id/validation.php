@@ -25,6 +25,8 @@ return [
         'to_division_id' => 'divisi peminjam',
         'due_date' => 'tanggal batas pengembalian',
         'loan_date' => 'tanggal peminjaman',
+        'from_date' => 'tgl awal',
+        'to_date' => 'tgl akhir'
     ],
     'regex' => 'Kolom :attribute harus memenuhi format yang benar.',
     'email' => 'Kolom :attribute harus berupa alamat email yang valid.',
