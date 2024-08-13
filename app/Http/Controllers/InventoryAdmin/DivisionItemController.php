@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Division;
 use App\Models\DivisionItem;
 use App\Models\InventoryItem;
+use App\Models\StockControl;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -64,7 +65,8 @@ class DivisionItemController extends Controller
             'division_id' =>'required',
             'quantity' =>'required|numeric|min:1',
         ]);
-        
+
+        // Ambil data InventoryItem
         $inventoryItem = InventoryItem::find($validatedData['inventory_item_id']);
 
         // Cek apakah quantity yang diminta lebih besar dari stock yang tersedia
@@ -75,7 +77,7 @@ class DivisionItemController extends Controller
         // Kurangkan stock dari inventory item
         $inventoryItem->stock -= $validatedData['quantity'];
         $inventoryItem->save();
-        
+
         // Jika data telah ada maka cukup tambahkan quantitynya
         $divisionItem = DivisionItem::firstOrNew([
             'inventory_item_id' => $validatedData['inventory_item_id'],
@@ -86,8 +88,23 @@ class DivisionItemController extends Controller
         $divisionItem->condition_id = $inventoryItem->condition_id;
         $divisionItem->save();
 
+        // Ambil nama divisi
+        $divisionName = Division::find($validatedData['division_id'])->name;
+
+        // Tambahkan entri ke stock_controls
+        StockControl::create([
+            'inventory_item_id' => $validatedData['inventory_item_id'],
+            'description' => "Barang telah didistribusikan kepada " . $divisionName,
+            'date' => now()->format('Y-m-d'),
+            'type' => 'distribution',
+            'in' => NULL,
+            'out' => $validatedData['quantity'],
+            'stock_after' => $inventoryItem->stock,
+        ]);
+
         return redirect()->route('inventory_admin.divisionitems.index')->with('success', 'Data Barang berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
@@ -125,23 +142,50 @@ class DivisionItemController extends Controller
         if ($quantityDifference > 0 && $quantityDifference > $inventoryItem->stock) {
             return redirect()->back()->withErrors(['quantity' => 'Stok tidak mencukupi untuk menambah jumlah sebesar itu.']);
         }
-        
+
         // Update quantity pada division item
         $divisionItem->quantity = $validatedData['quantity'];
         $divisionItem->save();
 
-        // Update stok pada inventory item berdasarkan selisih
+        // Ambil nama divisi
+        $divisionName = Division::find($divisionItem->division_id)->name;
+
+        // Update stok pada inventory item berdasarkan selisih dan tambahkan log ke stock control
         if ($quantityDifference > 0) {
             // Jika quantity baru lebih besar, kurangi stok pada inventory item
             $inventoryItem->stock -= $quantityDifference;
+
+            // Tambahkan log ke stock control
+            StockControl::create([
+                'inventory_item_id' => $divisionItem->inventory_item_id,
+                'description' => "Barang telah didistribusikan kepada " . $divisionName,
+                'date' => now()->format('Y-m-d'),
+                'type' => 'distribution',
+                'in' => null,
+                'out' => $quantityDifference,
+                'stock_after' => $inventoryItem->stock,
+            ]);
         } else {
             // Jika quantity baru lebih kecil, tambah stok pada inventory item
             $inventoryItem->stock += abs($quantityDifference);
+
+            // Tambahkan log ke stock control
+            StockControl::create([
+                'inventory_item_id' => $divisionItem->inventory_item_id,
+                'description' => "Barang telah dikembalikan ke inventori oleh " . $divisionName,
+                'date' => now()->format('Y-m-d'),
+                'type' => 'entry',
+                'in' => abs($quantityDifference),
+                'out' => null,
+                'stock_after' => $inventoryItem->stock,
+            ]);
         }
+
         $inventoryItem->save();
 
         return redirect()->route('inventory_admin.divisionitems.index')->with('success', 'Data Barang berhasil diperbarui');
     }
+
 
 
 

@@ -7,6 +7,7 @@ use App\Models\Division;
 use App\Models\DivisionItem;
 use App\Models\InventoryItem;
 use App\Models\ItemCondition;
+use App\Models\StockControl;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -52,8 +53,8 @@ class DivisionItemController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'inventory_item_id' =>'required',
-            'quantity' =>'required|numeric|min:1',
+            'inventory_item_id' => 'required',
+            'quantity' => 'required|numeric|min:1',
         ]);
         
         $inventoryItem = InventoryItem::find($validatedData['inventory_item_id']);
@@ -75,11 +76,26 @@ class DivisionItemController extends Controller
 
         $divisionItem->quantity += $validatedData['quantity'];
         $divisionItem->condition_id = $inventoryItem->condition_id;
-        $divisionItem->description = NULL;
+        $divisionItem->description = null;
         $divisionItem->save();
+
+        // Ambil nama divisi
+        $divisionName = auth()->user()->division->name;
+
+        // Tambahkan entri ke stock_controls
+        StockControl::create([
+            'inventory_item_id' => $validatedData['inventory_item_id'],
+            'description' => "Barang telah didistribusikan kepada " . $divisionName,
+            'date' => now()->format('Y-m-d'),
+            'type' => 'distribution',
+            'in' => null,
+            'out' => $validatedData['quantity'],
+            'stock_after' => $inventoryItem->stock,
+        ]);
 
         return redirect()->route('division_admin.divisionitems.index')->with('success', 'Data Barang berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.

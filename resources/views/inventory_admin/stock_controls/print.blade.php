@@ -87,6 +87,7 @@
 
         .table-signature {
             width: 100%;
+            font-size: 14px;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
@@ -108,11 +109,11 @@
             text-align: center;
         }
 
-        /* footer {
+        footer {
             position: absolute;
             bottom: 0;
             width: 100%;
-        } */
+        }
 
         .page-num:before {
             content: counter(page);
@@ -212,6 +213,40 @@
         <h4 style="text-align: center; margin-top: 250px;">Tidak ada data</h4>
     @endforelse
 
+    <footer>
+        <div class="signature-path" style="display: flex; justify-content: center; align-items: center; text-align: center; margin: 0 auto;">
+            <table class="table-signature">
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">
+                            Dibuat Oleh :
+                        </td>
+                        <td style="text-align: center;">
+                            Diperiksa Oleh :
+                        </td>
+                    </tr>
+                    <tr style="margin-top:20px;">
+                        <td style="padding-top: 40px; text-align: center;">
+                            {{-- <img src="{{ asset('image/ttd/puskom.png') }}" alt="Tanda Tangan Kabag Inventori" width="60" style="display: block; text-align: center;"> --}}
+                        </td>
+                        <td style="padding-top: 40px; text-align: center;">
+                            {{-- <img src="{{ asset('image/ttd/wakil_rektor2.png') }}" alt="Tanda Tangan Wakil Rektor 2" width="60"> --}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            (Penerima Barang)
+                        </td>
+                        <td style="text-align: center;">
+                            (Wakil Rektor II)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+    
+    
 </body>
 
 </html>

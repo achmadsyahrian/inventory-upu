@@ -138,7 +138,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" rowspan="2" class="header-cell">
-                        <strong>JUDUL</strong><br>DAFTAR INVENTARIS UNIT DIVISI
+                        <strong>JUDUL</strong><br>DAFTAR INVENTARIS KESELURUHAN UNIT DIVISI
                     </td>
                     <td class="">
                         <span style="width: 120px; display: inline-block"> Tanggal Terbit </span> : 08 April 2019
